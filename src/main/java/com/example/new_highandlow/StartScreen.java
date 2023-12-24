@@ -15,7 +15,7 @@ public class StartScreen extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 		setLayout(null);
 
-		btn = new JButton("LOGIN");
+		btn = new JButton("Start");
 		btn.setBounds(250, 300, 100, 40);
 		btn.addActionListener(this);
 		btn.setFont(new Font("Arial", Font.BOLD, 16));

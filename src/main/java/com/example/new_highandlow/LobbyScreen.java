@@ -9,12 +9,12 @@ public class LobbyScreen extends JFrame{
 	private JTextField user_Id_text;
 	private JPasswordField password_text;
 	private JButton login_button, create_account_button;
-	private JLabel user_Id_label, password_label, title_label, message_label;
+	private JLabel user_Id_label, password_label, message_label;
 	private JCheckBox showPassword;
 
 	public LobbyScreen(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 600);
+		setSize(960, 540);
 		setTitle("Lobby Screen");
 		setLocationRelativeTo(null);
 		setLayout(null);
@@ -23,63 +23,58 @@ public class LobbyScreen extends JFrame{
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				ImageIcon image = new ImageIcon("src/main/java/com/example/new_highandlow/cccc.png");
+				ImageIcon image = new ImageIcon("src/main/resources/com/example/new_highandlow/png/Lobby.png");
 				g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
 		back_ground_panel.setLayout(null);
 		back_ground_panel.setOpaque(false);
 
-		title_label = new JLabel("New High and Low");
-		title_label.setBounds(250, 50, 400, 40);
-		title_label.setFont(new Font("Arial", Font.BOLD, 35));
-
 		user_Id_label = new JLabel("User ID");
-		user_Id_label.setBounds(180, 150, 100, 40);
-		user_Id_label.setFont(new Font("Arial", Font.BOLD, 20));
+		user_Id_label.setBounds(340, 160, 200, 40);
+		user_Id_label.setFont(new Font("Arial", Font.BOLD, 15));
 
-		password_label = new JLabel("PassWord");
-		password_label.setBounds(180, 200, 200, 40);
-		password_label.setFont(new Font("Arial", Font.BOLD, 20));
+		password_label = new JLabel("Password");
+		password_label.setBounds(340, 225, 200, 40);
+		password_label.setFont(new Font("Arial", Font.BOLD, 15));
 
 		message_label = new JLabel();
-		message_label.setBounds(300, 360, 300, 40);
-		message_label.setFont(new Font("Arial", Font.BOLD, 20));
-		message_label.setForeground(Color.red);
+		message_label.setBounds(400, 160, 450, 40);
+		message_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
 
 		user_Id_text = new JTextField();
-		user_Id_text.setBounds(300, 150, 300, 40);
+		user_Id_text.setBounds(345, 195, 255, 30);
 		user_Id_text.setFont(new Font("Arial", Font.BOLD, 20));
 		user_Id_text.setForeground(Color.black);
 
 		password_text = new JPasswordField();
-		password_text.setBounds(300, 200, 300, 40);
+		password_text.setBounds(345, 260, 255, 30);
 		password_text.setFont(new Font("Arial", Font.BOLD, 20));
 		password_text.setForeground(Color.black);
 
 		showPassword = new JCheckBox("show password");
-		showPassword.setBounds(300, 250, 300, 40);
-		showPassword.setFont(new Font("Arial", Font.ITALIC, 20));
+		showPassword.setBounds(350, 285, 300, 40);
+		showPassword.setFont(new Font("Arial", Font.ITALIC, 15));
 		showPassword.setForeground(Color.black);
+		showPassword.setOpaque(false);
 		showPassword.addActionListener(this::showPassword);
 
-		login_button = new JButton("LOGIN");
-		login_button.setBounds(250, 300, 100, 40);
+		login_button = new JButton("Login");
+		login_button.setBounds(425, 325, 100, 40);
 		login_button.addActionListener(this::pushLoginButton);
 		login_button.setFont(new Font("Arial", Font.BOLD, 16));
 		login_button.setBackground(Color.blue);
 		login_button.setForeground(Color.white);
 
-		create_account_button = new JButton("CREATE ACCOUNT");
-		create_account_button.setBounds(450, 300, 190, 40);
+		create_account_button = new JButton("Create Account");
+		create_account_button.setBounds(390, 380, 170, 40);
 		create_account_button.addActionListener(this::pushCreateAccountButton);
 		create_account_button.setFont(new Font("Arial", Font.BOLD, 16));
-		create_account_button.setBackground(Color.red);
+		create_account_button.setBackground(Color.blue);
 		create_account_button.setForeground(Color.white);
 
 		this.add(back_ground_panel);
 
-		back_ground_panel.add(title_label);
 		back_ground_panel.add(user_Id_label);
 		back_ground_panel.add(user_Id_text);
 		back_ground_panel.add(password_label);
@@ -95,16 +90,25 @@ public class LobbyScreen extends JFrame{
 
 	public void pushLoginButton(ActionEvent event){
 		if(event.getSource()==login_button){
-			String user = user_Id_text.getText();
-			String pwd = new String(password_text.getPassword());
+			String user = user_Id_text.getText().trim();
+			String pwd = new String(password_text.getPassword()).trim();
 
-			if(user.equalsIgnoreCase("admin") && pwd.equalsIgnoreCase("pass")){
+			if (user.isEmpty() && pwd.isEmpty()) {
+				message_label.setForeground(Color.orange);
+				displayMessage("※ユーザIDとパスワードを入力してください");
+			} else if (user.isEmpty()) {
+				message_label.setForeground(Color.orange);
+				displayMessage("※ユーザIDを入力してください");
+			} else if (pwd.isEmpty()){
+				message_label.setForeground(Color.orange);
+				displayMessage("※パスワードを入力してください");
+			} else if(user.equalsIgnoreCase("admin") && pwd.equalsIgnoreCase("pass")){
 				SController sc = new SController();
 				sc.changeScreen("Start");
 				this.setVisible(false);
-			}
-			else{
-				displayMessage("Invalid Username and Password !");
+			} else{
+				message_label.setForeground(Color.red);
+				displayMessage("※ユーザIDとパスワードが違います");
 			}
 		}
 	}
@@ -115,6 +119,8 @@ public class LobbyScreen extends JFrame{
 			char[] password = password_text.getPassword();
 			String passwordstr = new String(password);
 			cc.checkPasswordStrength(passwordstr);
+			message_label.setForeground(Color.blue);
+			displayMessage("※データベースに登録しました");
 		}
 	}
 
