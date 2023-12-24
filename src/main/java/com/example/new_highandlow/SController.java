@@ -8,6 +8,9 @@ public class SController{
 			JFrame newScreen = null;
 
 			switch(screen_id){
+				case "Lobby":
+					newScreen = new LobbyScreen();
+					break;
 				case "Start":
 					newScreen = new StartScreen();
 					break;
