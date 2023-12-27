@@ -1,11 +1,17 @@
 package com.example.new_highandlow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MessageContent{
 
-	private String user_id;
-	private String password;
-	private String score;
-	private String rule;
-	private String error;
+	String user_id;
+	String password;
+	int num_plays_score;
+	int num_hits_score;
+	int num_wins_score;
+	//カードおよびルールの画像ファイル(base64)格納用のリスト
+	List<String> textDataList = new ArrayList<>();
+	String error;
 
 }
