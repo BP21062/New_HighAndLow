@@ -68,7 +68,7 @@ public class LobbyScreen extends JFrame{
 
 		create_account_button = new JButton("Create Account");
 		create_account_button.setBounds(390, 380, 170, 40);
-		create_account_button.addActionListener(this::pushCreateAccountButton);
+		//create_account_button.addActionListener(this::pushCreateAccountButton);
 		create_account_button.setFont(new Font("Arial", Font.BOLD, 16));
 		create_account_button.setBackground(Color.blue);
 		create_account_button.setForeground(Color.white);
@@ -113,6 +113,7 @@ public class LobbyScreen extends JFrame{
 		}
 	}
 
+	/*
 	public void pushCreateAccountButton(ActionEvent event){
 		if(event.getSource()==create_account_button){
 			CController cc = new CController();
@@ -123,6 +124,7 @@ public class LobbyScreen extends JFrame{
 			displayMessage("※データベースに登録しました");
 		}
 	}
+	 */
 
 	public void showPassword(ActionEvent event){
 		if(event.getSource()==showPassword){

@@ -14,6 +14,7 @@ public class SController{
 				case "Start":
 					newScreen = new StartScreen();
 					break;
+					/*
 				case "Score":
 					newScreen = new ScoreScreen();
 					break;
@@ -29,6 +30,7 @@ public class SController{
 				case "Result":
 					newScreen = new ResultScreen();
 					break;
+					 */
 			}
 
 			if (newScreen != null) {
