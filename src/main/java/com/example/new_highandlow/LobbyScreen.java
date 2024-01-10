@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class LobbyScreen extends JFrame{
+public class 	LobbyScreen extends JFrame{
 	private JPanel back_ground_panel;
 	private JTextField user_Id_text;
 	private JPasswordField password_text;
