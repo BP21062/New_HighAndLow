@@ -32,6 +32,23 @@ public class WebSocketEndpoint{
 			order = "5002";
 			CController.waitScreen.StartGame();
 		}
+		if(receivedMessage.order.equals("2000")){
+			if(receivedMessage.result=true){
+				CController.lobbyScreen.displayMessage("※データベースへの登録完了");
+			}
+			else{
+				CController.lobbyScreen.displayMessage("※ユーザーIDが重複しています");
+			}
+		}
+		if(receivedMessage.order.equals("2001")){
+			if(receivedMessage.result=true){
+				CController.lobbyScreen.displayMessage("ログイン成功");
+				CController.lobbyScreen.changeScreen("Start");
+			}
+			else{
+				CController.lobbyScreen.displayMessage("※ログインに失敗しました");
+			}
+		}
 
 		// 変換：SampleMessage -> String
 		//System.out.println(gson.toJson(receivedMessage));

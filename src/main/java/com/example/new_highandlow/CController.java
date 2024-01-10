@@ -15,6 +15,7 @@ public class CController implements Runnable{
 
 	static CServerConnector wsManager;
 	static WaitScreen waitScreen;
+	static LobbyScreen lobbyScreen;
 	/*
 	 *  サーバ側のエンドポイントと合わせる．2箇所確認する．
 	 *  1. mainメソッド内でserverインスタンスを生成する際のContextRoot
@@ -74,7 +75,7 @@ public class CController implements Runnable{
 		return this.passwd.matches("(?=.*[A-Z]).{8,12}"); //パスワードが条件を満たしていればtrue　それ以外はfalse
 	}
 
-	public boolean registerUser(){
+	public void registerUser(){
 		System.out.println("sendMessage()");
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("2", User_id);
@@ -86,10 +87,27 @@ public class CController implements Runnable{
 		wsManager = new CServerConnector(serverLobbyEndpoint);
 		if(wsManager.connect()){
 			wsManager.sendMessage(sendMessageJson);
-			return true;
 		}
 		else{
-			return false;
+			lobbyScreen.displayMessage("※接続に失敗しました");
+		}
+	}
+
+	public void login(){
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("4", User_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.messageContent.password=this.passwd;
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverLobbyEndpoint);
+		if(wsManager.connect()){
+			wsManager.sendMessage(sendMessageJson);
+		}
+		else{
+			lobbyScreen.displayMessage("※接続に失敗しました");
 		}
 	}
 
