@@ -70,19 +70,27 @@ public class CController implements Runnable{
 		}
 	}
 
-	public void checkPasswordStrength(String password){}
+	public boolean checkPasswordStrength(){
+		return this.passwd.matches("(?=.*[A-Z]).{8,12}"); //パスワードが条件を満たしていればtrue　それ以外はfalse
+	}
 
-	public void registerUser(){
+	public boolean registerUser(){
 		System.out.println("sendMessage()");
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("2", User_id);
 		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.messageContent.password=this.passwd;
 		String sendMessageJson = gson.toJson(sendMessage);
 		// 変換後の書式を表示してみる。（JSON）
 		System.out.println(sendMessageJson);
 		wsManager = new CServerConnector(serverLobbyEndpoint);
-		wsManager.connect();
-		wsManager.sendMessage(sendMessageJson);
+		if(wsManager.connect()){
+			wsManager.sendMessage(sendMessageJson);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	public void logout(String user_id){}

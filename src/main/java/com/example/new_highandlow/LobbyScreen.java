@@ -39,7 +39,7 @@ public class LobbyScreen extends JFrame{
 		password_label.setFont(new Font("Arial", Font.BOLD, 15));
 
 		message_label = new JLabel();
-		message_label.setBounds(400, 160, 450, 40);
+		message_label.setBounds(400, 160, 500, 40);
 		message_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
 
 		user_Id_text = new JTextField();
@@ -134,12 +134,22 @@ public class LobbyScreen extends JFrame{
 			CController cc = new CController();
 			char[] password = password_text.getPassword();
 			String passwordstr = new String(password);
-			cc.checkPasswordStrength(passwordstr);
 			cc.User_id = user_Id_text.getText();
-			cc.passwd = user_Id_text.getText();
-			cc.registerUser();
-			message_label.setForeground(Color.blue);
-			displayMessage("※データベースに登録しました");
+			cc.passwd = passwordstr;
+			if(cc.checkPasswordStrength()){
+				if(cc.registerUser()){
+					message_label.setForeground(Color.blue);
+					displayMessage("※データベースに登録しました");
+				}
+				else{
+					message_label.setForeground(Color.red);
+					displayMessage("ロビーサーバに接続できませんでした");
+				}
+			}
+			else{
+				message_label.setForeground(Color.red);
+				displayMessage("※パスワードは英数字8~12文字で大文字を1文字以上含んでください");
+			}
 		}
 	}
 
