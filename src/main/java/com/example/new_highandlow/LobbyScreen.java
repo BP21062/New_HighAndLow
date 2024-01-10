@@ -139,7 +139,7 @@ public class LobbyScreen extends JFrame{
 			if(cc.checkPasswordStrength()){
 				if(cc.registerUser()){
 					message_label.setForeground(Color.blue);
-					displayMessage("※データベースに登録しました");
+					displayMessage("※データベースへの登録完了");
 				}
 				else{
 					message_label.setForeground(Color.red);

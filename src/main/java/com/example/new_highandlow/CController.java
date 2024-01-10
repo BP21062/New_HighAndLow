@@ -81,7 +81,7 @@ public class CController implements Runnable{
 		// クラスオブジェクトをString (JSON) に変換する
 		sendMessage.messageContent.password=this.passwd;
 		String sendMessageJson = gson.toJson(sendMessage);
-		// 変換後の書式を表示してみる。（JSON）
+		// 変換後の書式を表示してみる。JSON
 		System.out.println(sendMessageJson);
 		wsManager = new CServerConnector(serverLobbyEndpoint);
 		if(wsManager.connect()){
