@@ -8,8 +8,10 @@ public class WaitScreen extends JFrame{
 	private JPanel back_ground_panel;
 	private JLabel room_number_label, current_user_label;
 	private JButton exit_room_button;
+	private String user_id;
+	public static String order;
 
-	public WaitScreen(){
+	public WaitScreen(String user_id,int room_id){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Wait Screen");
@@ -33,7 +35,7 @@ public class WaitScreen extends JFrame{
 		room_number_label.setOpaque(true);
 		room_number_label.setBackground(Color.orange);
 		room_number_label.setForeground(Color.black);
-		displayRoomNumber(2);
+		displayRoomNumber(room_id);
 
 		current_user_label = new JLabel();
 		current_user_label.setBounds(330, 230, 270, 40);
@@ -58,6 +60,7 @@ public class WaitScreen extends JFrame{
 		setContentPane(back_ground_panel);
 
 		this.setVisible(true);
+		this.user_id = user_id;
 	}
 
 	public void pushExitRoomButton(ActionEvent event){
@@ -65,6 +68,7 @@ public class WaitScreen extends JFrame{
 			CController cc = new CController();
 			cc.logout("user_id");
 			SController sc = new SController();
+			sc.User_id = user_id;
 			sc.changeScreen("Start");
 			this.setVisible(false);
 		}
@@ -81,4 +85,13 @@ public class WaitScreen extends JFrame{
 		String usr = String.format(" 現在人数：%d / 4 ", user);
 		current_user_label.setText(usr);
 	}
+
+	public void StartGame(){
+
+		CController.waitScreen.setVisible(false);
+		SController sController = new SController();
+		sController.changeScreen("Game");
+
+	}
+
 }

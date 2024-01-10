@@ -10,7 +10,11 @@ import com.google.gson.Gson;
 //WebSocketClientSample.java
 public class CController implements Runnable{
 
+	String User_id;
+	String passwd;
+
 	static CServerConnector wsManager;
+	static WaitScreen waitScreen;
 	/*
 	 *  サーバ側のエンドポイントと合わせる．2箇所確認する．
 	 *  1. mainメソッド内でserverインスタンスを生成する際のContextRoot
@@ -22,17 +26,18 @@ public class CController implements Runnable{
 	 *  この例ではプロトコルはWebSocket（ws），ポートは8080，サーバアドレスはlocalhost
 	 *  使い分けるときは適宜Stringとして分割して定義し結合すれば良い．
 	 */
-	static String serverEndpoint = "ws://localhost:8080/app/sample";
+	static String serverAppEndpoint = "ws://localhost:8080/app/playgame"; //appサーバー用
+	static String serverLobbyEndpoint = "ws://localhost:8080/Lobby/Register";
 	//static String serverEndpoint = "ws://localhost:8080/app/example";
 
 
-	static int id = 1;
+	static int id = 0;
 	static String password = "password";
 	static Gson gson = new Gson();
 
 	public static void main(String[] args) throws IOException, DeploymentException {
 
-		wsManager = new CServerConnector(serverEndpoint);
+		wsManager = new CServerConnector(serverAppEndpoint);
 		wsManager.connect();
 
 		new CController();
@@ -48,14 +53,14 @@ public class CController implements Runnable{
 	public void run() {
 		while(true) {
 			if(wsManager.isConnected()) {
-				System.out.println("sendMessage()");
+				//System.out.println("sendMessage()");
 				// 試しにSampleMessageのインスタンスを作ってみる
-				Message sendMessage = new Message(password, "user_id");
+				//Message sendMessage = new Message("test", "user_id");
 				// クラスオブジェクトをString (JSON) に変換する
-				String sendMessageJson = gson.toJson(sendMessage);
+				//String sendMessageJson = gson.toJson(sendMessage);
 				// 変換後の書式を表示してみる。（JSON）
-				System.out.println(sendMessageJson);
-				wsManager.sendMessage(sendMessageJson);
+				//System.out.println(sendMessageJson);
+				//wsManager.sendMessage(sendMessageJson);
 			}
 			try {
 				Thread.sleep(1000);
@@ -67,5 +72,41 @@ public class CController implements Runnable{
 
 	public void checkPasswordStrength(String password){}
 
+	public void registerUser(){
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("2", User_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。（JSON）
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverLobbyEndpoint);
+		wsManager.connect();
+		wsManager.sendMessage(sendMessageJson);
+	}
+
 	public void logout(String user_id){}
+
+	public void getRule(){}
+
+	public void getScore(){}
+
+	public void enter(String user_id,int room_id){
+		SController sc = new SController();
+		sc.Room_id = room_id;
+		sc.User_id = user_id;
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1003", user_id);
+		sendMessage.messageContent.room_id = room_id;
+		// クラスオブジェクトをString (JSON) に変換する
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。（JSON）
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverAppEndpoint);
+		wsManager.connect();
+		wsManager.sendMessage(sendMessageJson);
+		waitScreen = new WaitScreen(User_id,room_id);
+		waitScreen.setVisible(true);
+	}
 }

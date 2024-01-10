@@ -104,9 +104,25 @@ public class LobbyScreen extends JFrame{
 				displayMessage("※パスワードを入力してください");
 			} else if(user.equalsIgnoreCase("admin") && pwd.equalsIgnoreCase("pass")){
 				SController sc = new SController();
+				sc.User_id = "Tanaka";
 				sc.changeScreen("Start");
 				this.setVisible(false);
-			} else{
+			}else if(user.equalsIgnoreCase("master") && pwd.equalsIgnoreCase("word")){
+				SController sc = new SController();
+				sc.User_id = "Nico";
+				sc.changeScreen("Start");
+				this.setVisible(false);
+			}else if(user.equalsIgnoreCase("a") && pwd.equalsIgnoreCase("a")){
+				SController sc = new SController();
+				sc.User_id = "ioka";
+				sc.changeScreen("Start");
+				this.setVisible(false);
+			}else if(user.equalsIgnoreCase("b") && pwd.equalsIgnoreCase("b")){
+				SController sc = new SController();
+				sc.User_id = "miyoshi";
+				sc.changeScreen("Start");
+				this.setVisible(false);
+			}else{
 				message_label.setForeground(Color.red);
 				displayMessage("※ユーザIDとパスワードが違います");
 			}
@@ -119,6 +135,9 @@ public class LobbyScreen extends JFrame{
 			char[] password = password_text.getPassword();
 			String passwordstr = new String(password);
 			cc.checkPasswordStrength(passwordstr);
+			cc.User_id = user_Id_text.getText();
+			cc.passwd = user_Id_text.getText();
+			cc.registerUser();
 			message_label.setForeground(Color.blue);
 			displayMessage("※データベースに登録しました");
 		}
