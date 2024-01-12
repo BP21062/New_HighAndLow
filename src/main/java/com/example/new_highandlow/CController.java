@@ -9,13 +9,15 @@ import com.google.gson.Gson;
 
 //WebSocketClientSample.java
 public class CController implements Runnable{
-
 	String User_id;
 	String passwd;
 
 	static CServerConnector wsManager;
-	static WaitScreen waitScreen;
 	static LobbyScreen lobbyScreen;
+	static StartScreen startScreen;
+	static WaitScreen waitScreen;
+	static GameScreen gameScreen;
+	static ResultScreen resultScreen;
 	/*
 	 *  サーバ側のエンドポイントと合わせる．2箇所確認する．
 	 *  1. mainメソッド内でserverインスタンスを生成する際のContextRoot
@@ -26,7 +28,7 @@ public class CController implements Runnable{
 	 *  例えば、"ws://localhost:8080/app/sample"といった形になる。
 	 *  この例ではプロトコルはWebSocket（ws），ポートは8080，サーバアドレスはlocalhost
 	 *  使い分けるときは適宜Stringとして分割して定義し結合すれば良い．
-	 */
+	*/
 	static String serverAppEndpoint = "ws://localhost:8080/app/playgame"; //appサーバー用
 	static String serverLobbyEndpoint = "ws://localhost:8080/Lobby/Register";
 	//static String serverEndpoint = "ws://localhost:8080/app/example";
@@ -111,7 +113,18 @@ public class CController implements Runnable{
 		}
 	}
 
-	public void logout(String user_id){}
+	public void logout(String user_id){
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("7", user_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverLobbyEndpoint);
+		wsManager.disconnect();
+		wsManager.sendMessage(sendMessageJson);
+	}
 
 	public void getRule(){}
 
@@ -130,9 +143,40 @@ public class CController implements Runnable{
 		// 変換後の書式を表示してみる。（JSON）
 		System.out.println(sendMessageJson);
 		wsManager = new CServerConnector(serverAppEndpoint);
-		wsManager.connect();
-		wsManager.sendMessage(sendMessageJson);
-		waitScreen = new WaitScreen(User_id,room_id);
-		waitScreen.setVisible(true);
+		if(wsManager.connect()){
+			wsManager.sendMessage(sendMessageJson);
+			startScreen.setVisible(false);
+			waitScreen = new WaitScreen(User_id,room_id);
+			waitScreen.setVisible(true);
+		}
+		else{
+			startScreen.displayMessage("※接続に失敗しました");
+		}
 	}
+
+	public boolean checkRoomState(String user_id, int room_id){
+		SController sc = new SController();
+		sc.Room_id = room_id;
+		sc.User_id = user_id;
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("6", user_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.messageContent.room_id=room_id;
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverLobbyEndpoint);
+		if(wsManager.connect()){
+			wsManager.sendMessage(sendMessageJson);
+			return true;
+		}
+		else{
+			startScreen.displayMessage("※接続に失敗しました");
+			return false;
+		}
+	}
+
+
+
 }

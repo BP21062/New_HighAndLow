@@ -14,6 +14,7 @@ public class StartScreen extends JFrame{
 	//要求仕様書のように部屋に入っている人数を表示するなら、画面遷移の時にアプリケーションサーバから引っ張ってくる必要がある
 	private String user_id;  //pushLogoutButton()で必要だが、現時点で未定義
 	//「addUserid(user_id)」のようなメソッドを定義して、LobbyScreenから遷移する時に引っ張ってくるのが簡単そう
+	public static boolean room_state_flag; //部屋の入室可否変数
 
 	public StartScreen(String user_id){
 		numberofpeople_list =new ArrayList<>();	//ここでは仮として定数で定義している
@@ -159,43 +160,143 @@ public class StartScreen extends JFrame{
 
 	public void pushEnterRoomButton(ActionEvent event){
 		if(event.getSource()== room1_button){
-
+			room_state_flag = false;
 			CController cController=new CController();
-			cController.enter(user_id,1);
-			SController sController = new SController();
-			sController.User_id = user_id;
-			this.setVisible(false);
-			//sController.changeScreen("Wait");
+			if(cController.checkRoomState(user_id, 1)){
+				/*
+					checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
+					次の処理を開始してしまう非同期処理になる?
+					⇒便宜的にウェイトを置いて対処
+				*/
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(room_state_flag){
+					cController.enter(user_id, 1);
+					SController sController = new SController();
+					sController.User_id = user_id;
+					sController.Room_id = 1;
+					sController.changeScreen("Wait");
+					this.setVisible(false);
+				}
+			}
 		}else if(event.getSource() == room2_button){
+			room_state_flag = false;
 			CController cController=new CController();
-			cController.enter(user_id,2);
-			SController sController = new SController();
-			sController.User_id = user_id;
-			this.setVisible(false);
+			if(cController.checkRoomState(user_id, 2)){
+				/*
+					checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
+					次の処理を開始してしまう非同期処理になる?
+					⇒便宜的にウェイトを置いて対処
+				*/
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(room_state_flag){
+					cController.enter(user_id, 2);
+					SController sController = new SController();
+					sController.User_id = user_id;
+					sController.Room_id = 2;
+					sController.changeScreen("Wait");
+					this.setVisible(false);
+				}
+			}
 		}else if(event.getSource() == room3_button){
+			room_state_flag = false;
 			CController cController=new CController();
-			cController.enter(user_id,3);
-			SController sController = new SController();
-			sController.User_id = user_id;
-			this.setVisible(false);
+			if(cController.checkRoomState(user_id, 3)){
+				/*
+					checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
+					次の処理を開始してしまう非同期処理になる?
+					⇒便宜的にウェイトを置いて対処
+				*/
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(room_state_flag){
+					cController.enter(user_id, 3);
+					SController sController = new SController();
+					sController.User_id = user_id;
+					sController.Room_id = 3;
+					sController.changeScreen("Wait");
+					this.setVisible(false);
+				}
+			}
 		}else if(event.getSource() == room4_button){
+			room_state_flag = false;
 			CController cController=new CController();
-			cController.enter(user_id,4);
-			SController sController = new SController();
-			sController.User_id = user_id;
-			this.setVisible(false);
+			if(cController.checkRoomState(user_id, 4)){
+				/*
+					checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
+					次の処理を開始してしまう非同期処理になる?
+					⇒便宜的にウェイトを置いて対処
+				*/
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(room_state_flag){
+					cController.enter(user_id, 4);
+					SController sController = new SController();
+					sController.User_id = user_id;
+					sController.Room_id = 4;
+					sController.changeScreen("Wait");
+					this.setVisible(false);
+				}
+			}
 		}else if(event.getSource() == room5_button){
+			room_state_flag = false;
 			CController cController=new CController();
-			cController.enter(user_id,5);
-			SController sController = new SController();
-			sController.User_id = user_id;
-			this.setVisible(false);
+			if(cController.checkRoomState(user_id, 5)){
+				/*
+					checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
+					次の処理を開始してしまう非同期処理になる?
+					⇒便宜的にウェイトを置いて対処
+				*/
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(room_state_flag){
+					cController.enter(user_id, 5);
+					SController sController = new SController();
+					sController.User_id = user_id;
+					sController.Room_id = 5;
+					sController.changeScreen("Wait");
+					this.setVisible(false);
+				}
+			}
 		}else if(event.getSource() == room6_button){
+			room_state_flag = false;
 			CController cController=new CController();
-			cController.enter(user_id,6);
-			SController sController = new SController();
-			sController.User_id = user_id;
-			this.setVisible(false);
+			if(cController.checkRoomState(user_id, 6)){
+				/*
+					checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
+					次の処理を開始してしまう非同期処理になる?
+					⇒便宜的にウェイトを置いて対処
+				*/
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(room_state_flag){
+					cController.enter(user_id, 6);
+					SController sController = new SController();
+					sController.User_id = user_id;
+					sController.Room_id = 6;
+					sController.changeScreen("Wait");
+					this.setVisible(false);
+				}
+			}
 		}
 	}
 
@@ -204,9 +305,6 @@ public class StartScreen extends JFrame{
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}
-
-
-
 
 	public void displayMessage(String displayString){
 		message_label.setText(displayString);
