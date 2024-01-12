@@ -9,20 +9,10 @@ public class StartScreen extends JFrame{
 	private JButton room1_button,room2_button,room3_button,room4_button,room5_button,room6_button,logout_button,score_button,rule_button;
 	private JPanel back_ground_panel;
 	private JLabel title_label,message_label;
-	private ArrayList<Button> enter_room_button_list;  //不要っぽそう
-	private ArrayList<String> numberofpeople_list;	//各部屋に入っている人数を格納するリスト
-	//要求仕様書のように部屋に入っている人数を表示するなら、画面遷移の時にアプリケーションサーバから引っ張ってくる必要がある
 	private String user_id;
 
 	public StartScreen(String user_id){
 		this.user_id=user_id;
-		numberofpeople_list =new ArrayList<>();	//ここでは仮として定数で定義している
-		numberofpeople_list.add("2");
-		numberofpeople_list.add("1");
-		numberofpeople_list.add("4");
-		numberofpeople_list.add("3");
-		numberofpeople_list.add("1");
-		numberofpeople_list.add("0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Start Screen");
@@ -52,42 +42,42 @@ public class StartScreen extends JFrame{
 		logout_button.setBackground(Color.red);
 		logout_button.setForeground(Color.white);
 
-		room1_button = new JButton("部屋1  "+ numberofpeople_list.get(0)+"/4");
+		room1_button = new JButton("部屋1");
 		room1_button.setBounds(250, 150, 180, 40);
 		room1_button.addActionListener(this::pushEnterRoomButton);
 		room1_button.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
 		room1_button.setBackground(Color.orange);
 		room1_button.setForeground(Color.black);
 
-		room2_button = new JButton("部屋2  "+ numberofpeople_list.get(1)+"/4");
+		room2_button = new JButton("部屋2");
 		room2_button.setBounds(500, 150, 180, 40);
 		room2_button.addActionListener(this::pushEnterRoomButton);
 		room2_button.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
 		room2_button.setBackground(Color.orange);
 		room2_button.setForeground(Color.black);
 
-		room3_button = new JButton("部屋3  "+ numberofpeople_list.get(2)+"/4");
+		room3_button = new JButton("部屋3");
 		room3_button.setBounds(250, 230, 180, 40);
 		room3_button.addActionListener(this::pushEnterRoomButton);
 		room3_button.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
 		room3_button.setBackground(Color.orange);
 		room3_button.setForeground(Color.black);
 
-		room4_button = new JButton("部屋4  "+ numberofpeople_list.get(3)+"/4");
+		room4_button = new JButton("部屋4");
 		room4_button.setBounds(500, 230, 180, 40);
 		room4_button.addActionListener(this::pushEnterRoomButton);
 		room4_button.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
 		room4_button.setBackground(Color.orange);
 		room4_button.setForeground(Color.black);
 
-		room5_button = new JButton("部屋5  "+ numberofpeople_list.get(4)+"/4");
+		room5_button = new JButton("部屋5");
 		room5_button.setBounds(250, 310, 180, 40);
 		room5_button.addActionListener(this::pushEnterRoomButton);
 		room5_button.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
 		room5_button.setBackground(Color.orange);
 		room5_button.setForeground(Color.black);
 
-		room6_button = new JButton("部屋6  "+ numberofpeople_list.get(5)+"/4");
+		room6_button = new JButton("部屋6");
 		room6_button.setBounds(500, 310, 180, 40);
 		room6_button.addActionListener(this::pushEnterRoomButton);
 		room6_button.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
@@ -127,9 +117,6 @@ public class StartScreen extends JFrame{
 
 		setContentPane(back_ground_panel);
 		this.setVisible(true);
-
-		this.user_id = user_id;
-
 	}
 
 
@@ -206,9 +193,6 @@ public class StartScreen extends JFrame{
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}
-
-
-
 
 	public void displayMessage(String displayString){
 		message_label.setText(displayString);
