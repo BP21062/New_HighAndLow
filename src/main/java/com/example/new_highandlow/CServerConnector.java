@@ -12,7 +12,7 @@ import static com.example.new_highandlow.CController.gson;
 
 //WebSocketManagerSample.java
 //@ClientEndpoint
-public class CServerConnector{
+public  class CServerConnector{
 	Session session;
 	WebSocketContainer container;
 	URI uri;
@@ -40,6 +40,12 @@ public class CServerConnector{
 		if(receivedMessage.order.equals("5002")){
 			SController sc = new SController();
 			sc.changeScreen("Game");
+		}
+		else if(receivedMessage.order.equals("2000")){
+
+		}
+		else if(receivedMessage.order.equals("2001")){
+
 		}
 
 

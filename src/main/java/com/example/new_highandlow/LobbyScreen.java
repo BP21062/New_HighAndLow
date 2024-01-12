@@ -39,7 +39,7 @@ public class LobbyScreen extends JFrame{
 		password_label.setFont(new Font("Arial", Font.BOLD, 15));
 
 		message_label = new JLabel();
-		message_label.setBounds(400, 160, 450, 40);
+		message_label.setBounds(400, 160, 500, 40);
 		message_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
 
 		user_Id_text = new JTextField();
@@ -102,29 +102,13 @@ public class LobbyScreen extends JFrame{
 			} else if (pwd.isEmpty()){
 				message_label.setForeground(Color.orange);
 				displayMessage("※パスワードを入力してください");
-			} else if(user.equalsIgnoreCase("admin") && pwd.equalsIgnoreCase("pass")){
-				SController sc = new SController();
-				sc.User_id = "Tanaka";
-				sc.changeScreen("Start");
-				this.setVisible(false);
-			}else if(user.equalsIgnoreCase("master") && pwd.equalsIgnoreCase("word")){
-				SController sc = new SController();
-				sc.User_id = "Nico";
-				sc.changeScreen("Start");
-				this.setVisible(false);
-			}else if(user.equalsIgnoreCase("a") && pwd.equalsIgnoreCase("a")){
-				SController sc = new SController();
-				sc.User_id = "ioka";
-				sc.changeScreen("Start");
-				this.setVisible(false);
-			}else if(user.equalsIgnoreCase("b") && pwd.equalsIgnoreCase("b")){
-				SController sc = new SController();
-				sc.User_id = "miyoshi";
-				sc.changeScreen("Start");
-				this.setVisible(false);
-			}else{
-				message_label.setForeground(Color.red);
-				displayMessage("※ユーザIDとパスワードが違います");
+			} else{
+				CController cc = new CController();
+				char[] password = password_text.getPassword();
+				String passwordstr = new String(password);
+				cc.User_id = user_Id_text.getText();
+				cc.passwd = passwordstr;
+				cc.login();
 			}
 		}
 	}
@@ -134,12 +118,13 @@ public class LobbyScreen extends JFrame{
 			CController cc = new CController();
 			char[] password = password_text.getPassword();
 			String passwordstr = new String(password);
-			cc.checkPasswordStrength(passwordstr);
 			cc.User_id = user_Id_text.getText();
-			cc.passwd = user_Id_text.getText();
-			cc.registerUser();
-			message_label.setForeground(Color.blue);
-			displayMessage("※データベースに登録しました");
+			cc.passwd = passwordstr;
+			if(cc.checkPasswordStrength())	cc.registerUser();
+			else{
+				message_label.setForeground(Color.red);
+				displayMessage("※パスワードは英数字8~12文字で大文字を1文字以上含んでください");
+			}
 		}
 	}
 
@@ -156,6 +141,12 @@ public class LobbyScreen extends JFrame{
 
 	public void displayMessage(String displayString){
 		message_label.setText(displayString);
+	}
+
+	public void changeScreen(String screen){
+		SController sc = new SController();
+		sc.changeScreen(screen);
+		this.setVisible(false);
 	}
 
 	public static void main(String[] args) {
