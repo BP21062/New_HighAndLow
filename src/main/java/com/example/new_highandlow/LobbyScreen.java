@@ -143,8 +143,9 @@ public class LobbyScreen extends JFrame{
 		message_label.setText(displayString);
 	}
 
-	public void changeScreen(String screen){
+	public void changeScreen(String screen,String user_id){
 		SController sc = new SController();
+		sc.User_id=user_id;
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}

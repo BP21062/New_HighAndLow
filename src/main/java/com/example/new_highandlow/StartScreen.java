@@ -12,10 +12,10 @@ public class StartScreen extends JFrame{
 	private ArrayList<Button> enter_room_button_list;  //不要っぽそう
 	private ArrayList<String> numberofpeople_list;	//各部屋に入っている人数を格納するリスト
 	//要求仕様書のように部屋に入っている人数を表示するなら、画面遷移の時にアプリケーションサーバから引っ張ってくる必要がある
-	private String user_id;  //pushLogoutButton()で必要だが、現時点で未定義
-	//「addUserid(user_id)」のようなメソッドを定義して、LobbyScreenから遷移する時に引っ張ってくるのが簡単そう
+	private String user_id;
 
 	public StartScreen(String user_id){
+		this.user_id=user_id;
 		numberofpeople_list =new ArrayList<>();	//ここでは仮として定数で定義している
 		numberofpeople_list.add("2");
 		numberofpeople_list.add("1");
@@ -136,8 +136,9 @@ public class StartScreen extends JFrame{
 	public void pushLogoutButton(ActionEvent event){
 		if(event.getSource()== logout_button){
 			CController cController=new CController();
-			cController.logout(user_id);
-			changeScreen("Lobby");
+			cController.logout(this.user_id);
+			Message message=null;
+			changeScreen("Lobby",message);
 		}
 	}
 
@@ -145,7 +146,7 @@ public class StartScreen extends JFrame{
 		if(event.getSource()== score_button){
 			CController cController=new CController();
 			cController.getScore();
-			changeScreen("Score");
+			//changeScreen("Score");
 		}
 	}
 
@@ -153,7 +154,7 @@ public class StartScreen extends JFrame{
 		if(event.getSource()== rule_button){
 			CController cController=new CController();
 			cController.getRule();
-			changeScreen("Rule");
+			//changeScreen("Rule");
 		}
 	}
 
@@ -199,8 +200,9 @@ public class StartScreen extends JFrame{
 		}
 	}
 
-	public void changeScreen(String screen){
+	public void changeScreen(String screen,Message message){
 		SController sc = new SController();
+		sc.message=message;
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}

@@ -10,12 +10,12 @@ public class ScoreScreen extends JFrame{
 	private JLabel title_label;
 	private JTextArea score_area;
 
-	public ScoreScreen(){
-		String play_count="50";		//プレイ数、勝利数、ヒット数を仮に定数で置いています
-		String win_count="25";
-		String hit_count="30";
-		double win_rate=Double.parseDouble(win_count)/Double.parseDouble(play_count);
-		double hit_rate=Double.parseDouble(hit_count)/(Double.parseDouble(play_count)*5);
+	public ScoreScreen(Message message){
+		int play_count=message.messageContent.num_plays_score;
+		int win_count=message.messageContent.num_wins_score;
+		int hit_count=message.messageContent.num_hits_score;
+		double win_rate=(double) win_count/(double) play_count;
+		double hit_rate=(double) hit_count/(double) play_count*5;
 		String scoreString="プレイ回数： "+play_count+"\n\n勝利数: "+win_count+"\n\nヒット数: "+hit_count+"\n\n勝率:"+win_rate+"\n\nヒット率:"+hit_rate;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,7 +65,6 @@ public class ScoreScreen extends JFrame{
 
 	private void pushReturnStartButton(ActionEvent event){
 		if(event.getSource()== return_start_button){
-			CController cController=new CController();
 			changeScreen("Start");
 		}
 	}
