@@ -11,18 +11,14 @@ public class RuleScreen extends JFrame{
 	private JButton return_start_button;
 	private JPanel back_ground_panel;
 
-	public RuleScreen(){
+	public RuleScreen(Message message){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Start Screen");
 		setLocationRelativeTo(null);
 		setLayout(null);
 
-		//画像ファイルを読み込む
-		byte[] binary = getFileBinary("src/main/resources/com/example/new_highandlow/png/img.png");
-
-		// base64のライブラリからencodeToStringを利用してbinaryタイプ(byte[])をbase64(Stringタイプ)に変換する。
-		String base64data = Base64.getEncoder().encodeToString(binary); //画像ファイルをbase64にエンコード
+		String base64data = message.messageContent.image_data;
 
 		InputStream input = new ByteArrayInputStream(Base64.getDecoder().decode(base64data));	//base64のデコード
 
@@ -61,7 +57,6 @@ public class RuleScreen extends JFrame{
 
 	private void pushReturnStartButton(ActionEvent event){
 		if(event.getSource()== return_start_button){
-			CController cController=new CController();
 			changeScreen("Start");
 		}
 	}
@@ -70,29 +65,5 @@ public class RuleScreen extends JFrame{
 		SController sc = new SController();
 		sc.changeScreen(screen);
 		this.setVisible(false);
-	}
-
-	private static byte[] getFileBinary(String filepath) {	//base64をエンコードするためだけのメソッド
-															//本番環境では削除します
-		// Fileクラスを割当てする。
-		File file = new File(filepath);
-		// ファイルサイズでbyteバッファを割り当てする。
-		byte[] data = new byte[(int) file.length()];
-		// IOのストリームを取得する。
-		try (FileInputStream stream = new FileInputStream(file)) {
-			// ファイルを読み込む。
-			stream.read(data, 0, data.length);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		// binaryを返却。
-		return data;
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			RuleScreen ruleScreen=new RuleScreen();
-			ruleScreen.setVisible(true);
-		});
 	}
 }

@@ -16,6 +16,7 @@ public class CController implements Runnable{
 	static CServerConnector wsManager;
 	static WaitScreen waitScreen;
 	static LobbyScreen lobbyScreen;
+	static StartScreen startScreen;
 	/*
 	 *  サーバ側のエンドポイントと合わせる．2箇所確認する．
 	 *  1. mainメソッド内でserverインスタンスを生成する際のContextRoot
@@ -111,11 +112,45 @@ public class CController implements Runnable{
 		}
 	}
 
-	public void logout(String user_id){}
+	public void logout(String user_id){
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("7",user_id );
+		// クラスオブジェクトをString (JSON) に変換する
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverLobbyEndpoint);
+		wsManager.connect();
+		wsManager.sendMessage(sendMessageJson);
+	}
 
-	public void getRule(){}
 
-	public void getScore(){}
+	public void getScore(){
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1000", User_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverLobbyEndpoint);
+		wsManager.connect();
+		wsManager.sendMessage(sendMessageJson);
+	}
+
+	public void getRule(){
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1001", User_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		wsManager = new CServerConnector(serverLobbyEndpoint);
+		wsManager.connect();
+		wsManager.sendMessage(sendMessageJson);
+	}
 
 	public void enter(String user_id,int room_id){
 		SController sc = new SController();
