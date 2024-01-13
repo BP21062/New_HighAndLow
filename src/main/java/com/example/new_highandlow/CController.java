@@ -169,5 +169,6 @@ public class CController implements Runnable{
 		wsManager.sendMessage(sendMessageJson);
 		waitScreen = new WaitScreen(User_id,room_id);
 		waitScreen.setVisible(true);
+		//
 	}
 }
