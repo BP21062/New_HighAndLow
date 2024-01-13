@@ -5,7 +5,9 @@ import javax.swing.*;
 public class SController{
 
 	String User_id;
+	String passWard;
 	int Room_id;
+	Message message;
 
 	public void changeScreen(String screen_id){
 			JFrame newScreen = null;
@@ -18,10 +20,10 @@ public class SController{
 					newScreen = new StartScreen(User_id);
 					break;
 				case "Score":
-					newScreen = new ScoreScreen();
+					newScreen = new ScoreScreen(message);
 					break;
 				case "Rule":
-					newScreen = new RuleScreen();
+					newScreen = new RuleScreen(message);
 					break;
 				case "Wait":
 					newScreen = new WaitScreen(User_id,Room_id);

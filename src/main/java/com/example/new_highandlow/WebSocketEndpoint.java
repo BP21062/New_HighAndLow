@@ -39,11 +39,17 @@ public class WebSocketEndpoint{
 		if(receivedMessage.order.equals("2001")){
 			if(receivedMessage.result=true){
 				CController.lobbyScreen.displayMessage("ログイン成功");
-				CController.lobbyScreen.changeScreen("Start");
+				CController.lobbyScreen.changeScreen("Start",receivedMessage.messageContent.user_id);
 			}
 			else{
 				CController.lobbyScreen.displayMessage("※ログインに失敗しました");
 			}
+		}
+		if(receivedMessage.order.equals("2003")){
+			CController.startScreen.changeScreen("Score",receivedMessage);
+		}
+		if(receivedMessage.order.equals("2004")){
+			CController.startScreen.changeScreen("Rule",receivedMessage);
 		}
 
 		/*checkRoomStateのboolean判定が帰ってくる
