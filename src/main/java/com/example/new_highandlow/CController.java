@@ -61,7 +61,7 @@ public class CController implements Runnable{
 				// クラスオブジェクトをString (JSON) に変換する
 				//String sendMessageJson = gson.toJson(sendMessage);
 				// 変換後の書式を表示してみる。（JSON）
-				//System.out.println(sendMessageJson);
+				// System.out.println(sendMessageJson);
 				//wsManager.sendMessage(sendMessageJson);
 			}
 			try {
