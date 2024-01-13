@@ -268,7 +268,7 @@ public class GameScreen extends JFrame implements Runnable{
 			displayRemainTime(0);
 		}
 
-		SController sController = new SController();
+		SController sController = new SController(user_id);
 		sController.User_id = user_id;
 		sController.changeScreen("Result");
 		this.setVisible(false);

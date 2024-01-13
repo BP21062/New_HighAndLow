@@ -29,9 +29,8 @@ public class CController implements Runnable{
 	 *  この例ではプロトコルはWebSocket（ws），ポートは8080，サーバアドレスはlocalhost
 	 *  使い分けるときは適宜Stringとして分割して定義し結合すれば良い．
 	 */
-	static String serverAppEndpoint = "ws://localhost:8080/app/playgame"; //appサーバー用
-	static String serverLobbyEndpoint = "ws://localhost:8080/Lobby/Register";
-	//static String serverEndpoint = "ws://localhost:8080/app/example";
+	static String serverAppEndpoint = "ws://localhost:8082/app/playgame"; //appサーバー用
+	static String serverLobbyEndpoint = "ws://localhost:8080/lobby/";
 
 
 	static int id = 0;
@@ -127,10 +126,10 @@ public class CController implements Runnable{
 	}
 
 
-	public void getScore(){
+	public void getScore(String user){
 		System.out.println("sendMessage()");
 		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("1000", User_id);
+		Message sendMessage = new Message("1000", user);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
 		// 変換後の書式を表示してみる。JSON
@@ -154,7 +153,7 @@ public class CController implements Runnable{
 	}
 
 	public void enter(String user_id,int room_id){
-		SController sc = new SController();
+		SController sc = new SController(user_id);
 		sc.Room_id = room_id;
 		sc.User_id = user_id;
 		System.out.println("sendMessage()");
@@ -178,7 +177,7 @@ public class CController implements Runnable{
 	}
 
 	public boolean checkRoomState(String user_id, int room_id){
-		SController sc = new SController();
+		SController sc = new SController(user_id);
 		sc.Room_id = room_id;
 		sc.User_id = user_id;
 		System.out.println("sendMessage()");

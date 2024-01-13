@@ -65,7 +65,7 @@ public class WaitScreen extends JFrame{
 		if(event.getSource()==exit_room_button){
 			CController cc = new CController();
 			cc.logout("user_id");
-			SController sc = new SController();
+			SController sc = new SController(user_id);
 			sc.User_id = user_id;
 			sc.changeScreen("Start");
 			this.setVisible(false);
@@ -82,14 +82,14 @@ public class WaitScreen extends JFrame{
 	}
 
 	public void changeScreen(String screen){
-		SController sc = new SController();
+		SController sc = new SController(user_id);
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}
 
 	public void StartGame(){
 		CController.waitScreen.setVisible(false);
-		SController sController = new SController();
+		SController sController = new SController(user_id);
 		sController.User_id = user_id;
 		sController.changeScreen("Game");
 	}

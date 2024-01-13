@@ -144,15 +144,17 @@ public class LobbyScreen extends JFrame{
 	}
 
 	public void changeScreen(String screen,String user_id){
-		SController sc = new SController();
+		SController sc = new SController(user_id);
 		sc.User_id=user_id;
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}
 
 	public static void main(String[] args) {
+
 		SwingUtilities.invokeLater(() -> {
 			LobbyScreen lobbyScreen = new LobbyScreen();
+			CController.lobbyScreen = lobbyScreen;
 			lobbyScreen.setVisible(true);
 		});
 	}
