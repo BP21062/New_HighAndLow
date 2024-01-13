@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 public class GameScreen extends JFrame implements Runnable{
 	private ArrayList<String> deck_information = new ArrayList<>();
@@ -17,8 +17,9 @@ public class GameScreen extends JFrame implements Runnable{
 	private JButton high_button, just_button, low_button;
 	private JButton hearts_button, diamonds_button, spades_button, clubs_button;
 	private JLabel HLJChoice,PTChoice;
+	private String user_id;
 
-	public GameScreen(){
+	public GameScreen(String user_id){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Game Screen");
@@ -52,16 +53,7 @@ public class GameScreen extends JFrame implements Runnable{
 		remain_time_label.setForeground(Color.white);
 		displayRemainTime(10);
 
-		int [] patterns = displaySecondCardInformation();
-		trump2_pattern_hearts = patterns[0];
-		trump2_pattern_diamonds = patterns[1];
-		trump2_pattern_spades = patterns[2];
-		trump2_pattern_clubs = patterns[3];
-		trump2_pattern_label = new JLabel("<html><body>&nbsp;2枚目の柄<br />" +
-				"&nbsp;&emsp;♡×" + trump2_pattern_hearts + "<br />" +
-				"&nbsp;&emsp;♢×" + trump2_pattern_diamonds + "<br />" +
-				"&nbsp;&emsp;♠×" + trump2_pattern_spades + "<br />" +
-				"&nbsp;&emsp;♣×" + trump2_pattern_clubs + "<br /></body></html>");
+		trump2_pattern_label = new JLabel();
 		trump2_pattern_label.setBounds(50, 140, 180, 180);
 		trump2_pattern_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 30));
 		trump2_pattern_label.setOpaque(true);
@@ -74,7 +66,6 @@ public class GameScreen extends JFrame implements Runnable{
 		user_score_label.setOpaque(true);
 		user_score_label.setBackground(Color.pink);
 		user_score_label.setForeground(Color.black);
-		//displayCurrentScore();
 
 		high_button = new JButton("High");
 		high_button.setBounds(300, 350, 80, 40);
@@ -148,6 +139,8 @@ public class GameScreen extends JFrame implements Runnable{
 		back_ground_panel.add(clubs_button);
 		setContentPane(back_ground_panel);
 
+		this.user_id = user_id;
+
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -157,24 +150,28 @@ public class GameScreen extends JFrame implements Runnable{
 		remain_time_label.setText(num);
 	}
 
-	public static int[] displaySecondCardInformation(){
-		int patterns[] = new int[4];
-		patterns[0] = 3;
-		patterns[1] = 7;
-		patterns[2] = 2;
-		patterns[3] = 8;
-		return patterns;
+	public void displaySecondCardInformation(List<Integer> pattern_list){
+		List<Integer> patterns = new ArrayList<>();
+		for(int a=0;a<4;a++){
+			patterns.set(a, pattern_list.get(a));
+		}
+		String num = String.format("<html><body>&nbsp;2枚目の柄<br />" +
+				"&nbsp;&emsp;♡×" + patterns.get(0) + "<br />" +
+				"&nbsp;&emsp;♢×" + patterns.get(1) + "<br />" +
+				"&nbsp;&emsp;♠×" + patterns.get(2) + "<br />" +
+				"&nbsp;&emsp;♣×" + patterns.get(3) + "<br /></body></html>");
+		trump2_pattern_label.setText(num);
 	}
 
-	public void displayCurrentScore(int[] scores){
-		Random random = new Random();
+	public void displayCurrentScore(List<Integer> score_list){
+		List<Integer> scores = new ArrayList<>();
 		for(int a=0;a<4;a++){
-			scores[a] += random.nextInt(31);
+			scores.set(a, score_list.get(a));
 		}
-		String num = String.format("<html><body>&nbsp;Player1：" +scores[0] + "<br />" +
-				"&nbsp;Player2：" + scores[1] + "<br />" +
-				"&nbsp;Player3：" + scores[2] + "<br />" +
-				"&nbsp;Player4：" + scores[3] + "<br /></body></html>");
+		String num = String.format("<html><body>&nbsp;Player1：" + scores.get(0) + "<br />" +
+				"&nbsp;Player2：" + scores.get(1) + "<br />" +
+				"&nbsp;Player3：" + scores.get(2) + "<br />" +
+				"&nbsp;Player4：" + scores.get(3) + "<br /></body></html>");
 		user_score_label.setText(num);
 	}
 
@@ -243,13 +240,7 @@ public class GameScreen extends JFrame implements Runnable{
 	}
 	@Override
 	public void run(){
-
-		Random random = new Random();
-
-		int score[] = new int[4];
-
 		for(int i=0;i<5;i++){
-			displayCurrentScore(score);
 			high_button.setEnabled(false);
 			just_button.setEnabled(false);
 			low_button.setEnabled(false);
@@ -275,17 +266,11 @@ public class GameScreen extends JFrame implements Runnable{
 				}
 			}
 			displayRemainTime(0);
-			score[0] += random.nextInt(31);
-			score[1] += random.nextInt(31);
-			score[2] += random.nextInt(31);
-			score[3] += random.nextInt(31);
 		}
 
-		SController sc = new SController();
-		sc.changeScreen("Result");
-
+		SController sController = new SController();
+		sController.User_id = user_id;
+		sController.changeScreen("Result");
 		this.setVisible(false);
-
 	}
-
 }

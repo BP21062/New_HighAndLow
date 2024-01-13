@@ -29,10 +29,10 @@ public class SController{
 					newScreen = new WaitScreen(User_id,Room_id);
 					break;
 				case "Game":
-					newScreen = new GameScreen();
+					newScreen = new GameScreen(User_id);
 					break;
 				case "Result":
-					newScreen = new ResultScreen();
+					newScreen = new ResultScreen(User_id);
 					break;
 			}
 

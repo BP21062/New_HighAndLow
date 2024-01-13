@@ -6,10 +6,9 @@ import java.awt.event.ActionEvent;
 
 public class WaitScreen extends JFrame{
 	private JPanel back_ground_panel;
-	private JLabel room_number_label, current_user_label;
+	private JLabel room_number_label, message_label;
 	private JButton exit_room_button;
 	private String user_id;
-	public static String order;
 
 	public WaitScreen(String user_id,int room_id){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,13 +36,12 @@ public class WaitScreen extends JFrame{
 		room_number_label.setForeground(Color.black);
 		displayRoomNumber(room_id);
 
-		current_user_label = new JLabel();
-		current_user_label.setBounds(330, 230, 270, 40);
-		current_user_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 30));
-		current_user_label.setOpaque(true);
-		current_user_label.setBackground(Color.orange);
-		current_user_label.setForeground(Color.black);
-		displayCurrentUser(3);
+		message_label = new JLabel();
+		message_label.setBounds(330, 230, 270, 40);
+		message_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 30));
+		message_label.setOpaque(true);
+		message_label.setBackground(Color.blue);
+		message_label.setForeground(Color.black);
 
 		exit_room_button = new JButton("退出");
 		exit_room_button.setBounds(410, 395, 120, 50);
@@ -55,7 +53,7 @@ public class WaitScreen extends JFrame{
 		this.add(back_ground_panel);
 
 		back_ground_panel.add(room_number_label);
-		back_ground_panel.add(current_user_label);
+		back_ground_panel.add(message_label);
 		back_ground_panel.add(exit_room_button);
 		setContentPane(back_ground_panel);
 
@@ -74,24 +72,26 @@ public class WaitScreen extends JFrame{
 		}
 	}
 
-	public void updateUserList(){}
-
 	public void displayRoomNumber(int number){
 		String num = String.format(" 部屋番号：%d ", number);
 		room_number_label.setText(num);
 	}
 
-	public void displayCurrentUser(int user){
-		String usr = String.format(" 現在人数：%d / 4 ", user);
-		current_user_label.setText(usr);
+	public void displayMessage(String displayString){
+		message_label.setText(displayString);
+	}
+
+	public void changeScreen(String screen){
+		SController sc = new SController();
+		sc.changeScreen(screen);
+		this.setVisible(false);
 	}
 
 	public void StartGame(){
-
 		CController.waitScreen.setVisible(false);
 		SController sController = new SController();
+		sController.User_id = user_id;
 		sController.changeScreen("Game");
-
 	}
 
 }

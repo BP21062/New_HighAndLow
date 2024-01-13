@@ -28,10 +28,6 @@ public class WebSocketEndpoint{
 		Message receivedMessage = gson.fromJson(message, Message.class);
 
 		// 各要素を見てみる
-		if(receivedMessage.order.equals("5002")){
-			order = "5002";
-			CController.waitScreen.StartGame();
-		}
 		if(receivedMessage.order.equals("2000")){
 			if(receivedMessage.result=true){
 				CController.lobbyScreen.displayMessage("※データベースへの登録完了");
@@ -56,6 +52,43 @@ public class WebSocketEndpoint{
 			CController.startScreen.changeScreen("Rule",receivedMessage);
 		}
 
+		/*checkRoomStateのboolean判定が帰ってくる
+		   receivedMessage.result=trueなら、そのまま入室
+		  receivedMessage.result=falseなら、満室表示して部屋選択からやり直し
+
+		  ⇒動作検証できていないのと、最悪の場合正常処理だけするよう変更します
+		*/
+		if(receivedMessage.order.equals("2002")){
+			if(receivedMessage.result=true){
+				StartScreen.room_state_flag = true; //入室許可
+			}
+			else{
+				CController.startScreen.displayMessage("※部屋が満室です");
+				StartScreen.room_state_flag = false; //入室拒否
+			}
+		}
+
+		if(receivedMessage.order.equals("5002")){
+			if(receivedMessage.result=true){
+				CController.waitScreen.StartGame();
+			}
+			else{
+				CController.waitScreen.displayMessage("※ゲームが開始されませんでした");
+				CController.waitScreen.changeScreen("Start");
+			}
+		}
+
+		if(receivedMessage.order.equals("5003")){
+			CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+		}
+		if(receivedMessage.order.equals("5004")){
+			CController.gameScreen.displaySecondCardInformation(receivedMessage.messageContent.pattern_list);
+		}
+		if(receivedMessage.order.equals("5005")){}
+		if(receivedMessage.order.equals("5006")){
+			CController.resultScreen.displayResult(receivedMessage.messageContent.score_list,
+					receivedMessage.messageContent.user_list);
+		}
 		// 変換：SampleMessage -> String
 		//System.out.println(gson.toJson(receivedMessage));
 	}
