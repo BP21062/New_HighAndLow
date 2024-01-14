@@ -1,5 +1,7 @@
 package com.example.new_highandlow;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -23,51 +25,15 @@ public class CServerConnector{
 		uri = URI.create(uriString);
 	}
 
-	@OnOpen
-	public void onOpen(Session session) {
-		System.out.println("[client] onOpen" + session.getId());
-	}
-
-	@OnMessage
-	public void onMessage(String message) {
-
-		// 受信した生のメッセージ
-		System.out.println("[client] onMessage: " + message);
-
-		// 変換：String -> SampleMessage
-		Message receivedMessage = gson.fromJson(message, Message.class);
-
-		// 各要素を見てみる
-		if(receivedMessage.order.equals("5002")){
-			//SController sc = new SController();
-			//sc.changeScreen("Game");
-		}
-
-
-		// 変換：SampleMessage -> String
-		//System.out.println(gson.toJson(receivedMessage));
-	}
-
-	@OnError
-	public void onError(Throwable t) {
-		System.out.println("[client] onError");
-		System.out.println(t.getCause());
-	}
-
-	@OnClose
-	public void onClose(Session session) {
-		System.out.println("[client] onClose: " + session.getId());
-	}
 
 	public boolean isConnected() {
-		//System.out.println("[client] isConnected(): " + session.isOpen());
-		return session.isOpen();
+		return this.session.isOpen();
 	}
 
 	public void sendMessage(String text) {
 		System.out.println("[client] sendMessage(): " + text);
 		try {
-			session.getBasicRemote().sendText(text);
+			this.session.getBasicRemote().sendText(text);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -76,7 +42,7 @@ public class CServerConnector{
 	public boolean connect() {
 		System.out.println("[client] connect(): " + uri);
 		try {
-			session = container.connectToServer(new WebSocketEndpoint(), uri);
+			this.session = container.connectToServer(new WebSocketEndpoint(), uri);
 			return true;
 		} catch (Exception e) {
 			return false;
