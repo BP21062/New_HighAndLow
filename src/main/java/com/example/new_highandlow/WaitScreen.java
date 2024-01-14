@@ -89,7 +89,6 @@ public class WaitScreen extends JFrame {
 	public void StartGame() {
 		CController.waitScreen.setVisible(false);
 		SController sController = new SController(user_id);
-		sController.user_id = user_id;
 		sController.changeScreen("Game");
 	}
 
