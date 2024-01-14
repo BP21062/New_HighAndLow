@@ -1,6 +1,6 @@
 package com.example.new_highandlow;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import com.google.gson.Gson;
 
@@ -74,51 +74,61 @@ public class CController{
 	}
 
 	public void logout(String user_id){
-		System.out.println("sendMessage()");
+		
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("7", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
-		// 変換後の書式を表示してみる。JSON
-		System.out.println(sendMessageJson);
+
+		// ログ
+		System.out.println("[client]: logout(): " + sendMessageJson+"\n");
+
 		lobby_connect.disconnect();
 	}
 
 
 	public void getScore(String user){
-		System.out.println("sendMessage()");
+
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("1000", user);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
-		// 変換後の書式を表示してみる。JSON
-		System.out.println(sendMessageJson);
+
+		// ログ
+		System.out.println("[client]: getScore(): " + sendMessageJson+"\n");
+
+		
 		lobby_connect.sendMessage(sendMessageJson);
 	}
 
 	public static void getRule(){
-		System.out.println("戦績を表示");
+
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("1001", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
-		// 変換後の書式を表示してみる。JSON
-		System.out.println(sendMessageJson);
+
+		// ログ
+		System.out.println("[client]: getRule(): " + sendMessageJson+"\n");
+
+
 		lobby_connect.sendMessage(sendMessageJson);
 	}
 
 	public void enter(String user_id, int room_id){
 		SController sc = new SController(user_id);
 		sc.room_id = room_id;
-		sc.user_id = user_id;
-		System.out.println("sendMessage()");
+		SController.user_id = user_id;
+
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("1003", user_id);
 		sendMessage.messageContent.room_id = room_id;
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
-		// 変換後の書式を表示してみる。（JSON）
-		System.out.println(sendMessageJson);
+		
+		// ログ
+		System.out.println("[client]: enter(): " + sendMessageJson+"\n");
+
 		app_connect = new CServerConnector(serverAppEndpoint);
 		if(app_connect.connect()){
 			app_connect.sendMessage(sendMessageJson);
@@ -133,15 +143,18 @@ public class CController{
 	public boolean checkRoomState(String user_id, int room_id){
 		SController sc = new SController(user_id);
 		sc.room_id = room_id;
-		sc.user_id = user_id;
-		System.out.println("sendMessage()");
+		SController.user_id = user_id;
+
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("6", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		sendMessage.messageContent.room_id = room_id;
 		String sendMessageJson = gson.toJson(sendMessage);
-		// 変換後の書式を表示してみる。JSON
-		System.out.println(sendMessageJson);
+
+		// ログ
+		System.out.println("[client]: fheckRoomState(): " + sendMessageJson+"\n");
+
+
 		if(lobby_connect.isConnected()){
 			lobby_connect.sendMessage(sendMessageJson);
 			return true;

@@ -166,7 +166,6 @@ public class StartScreen extends JFrame {
 				if (room_state_flag) {
 					cController.enter(user_id, 1);
 					SController sController = new SController(user_id);
-					sController.user_id = user_id;
 					sController.room_id = 1;
 					// sController.changeScreen("Wait");
 					this.setVisible(false);
@@ -189,7 +188,6 @@ public class StartScreen extends JFrame {
 				if (room_state_flag) {
 					cController.enter(user_id, 2);
 					SController sController = new SController(user_id);
-					sController.user_id = user_id;
 					sController.room_id = 2;
 					sController.changeScreen("Wait");
 					this.setVisible(false);
@@ -212,7 +210,6 @@ public class StartScreen extends JFrame {
 				if (room_state_flag) {
 					cController.enter(user_id, 3);
 					SController sController = new SController(user_id);
-					sController.user_id = user_id;
 					sController.room_id = 3;
 					sController.changeScreen("Wait");
 					this.setVisible(false);
@@ -235,7 +232,6 @@ public class StartScreen extends JFrame {
 				if (room_state_flag) {
 					cController.enter(user_id, 4);
 					SController sController = new SController(user_id);
-					sController.user_id = user_id;
 					sController.room_id = 4;
 					sController.changeScreen("Wait");
 					this.setVisible(false);
@@ -258,7 +254,6 @@ public class StartScreen extends JFrame {
 				if (room_state_flag) {
 					cController.enter(user_id, 5);
 					SController sController = new SController(user_id);
-					sController.user_id = user_id;
 					sController.room_id = 5;
 					sController.changeScreen("Wait");
 					this.setVisible(false);
@@ -281,7 +276,6 @@ public class StartScreen extends JFrame {
 				if (room_state_flag) {
 					cController.enter(user_id, 6);
 					SController sController = new SController(user_id);
-					sController.user_id = user_id;
 					sController.room_id = 6;
 					sController.changeScreen("Wait");
 					this.setVisible(false);

@@ -270,7 +270,6 @@ public class GameScreen extends JFrame implements Runnable {
 		}
 
 		SController sController = new SController(user_id);
-		sController.user_id = user_id;
 		sController.changeScreen("Result");
 		this.setVisible(false);
 	}

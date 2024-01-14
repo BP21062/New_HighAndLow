@@ -106,8 +106,8 @@ public class LobbyScreen extends JFrame {
 				CController cc = new CController();
 				char[] password = password_text.getPassword();
 				String passwordstr = new String(password);
-				cc.user_id = user_Id_text.getText();
-				cc.passwd = passwordstr;
+				CController.user_id = user_Id_text.getText();
+				CController.passwd = passwordstr;
 				cc.login();
 			}
 		}
@@ -144,7 +144,6 @@ public class LobbyScreen extends JFrame {
 
 	public void changeScreen(String screen, String user_id) {
 		SController sc = new SController(user_id);
-		sc.user_id = user_id;
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}

@@ -9,7 +9,7 @@ public class SController{
 	Message message;
 
 	SController(String user_id){
-		this.user_id = user_id;
+		SController.user_id = user_id;
 	}
 
 	public void changeScreen(String screen_id){
