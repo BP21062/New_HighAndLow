@@ -66,7 +66,7 @@ public class WaitScreen extends JFrame {
 			CController cc = new CController();
 			cc.logout("user_id");
 			SController sc = new SController(user_id);
-			sc.changeScreen("Start");
+			sc.changeScreen("Lobby");
 			this.setVisible(false);
 		}
 	}
