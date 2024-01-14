@@ -115,12 +115,11 @@ public class LobbyScreen extends JFrame{
 
 	public void pushCreateAccountButton(ActionEvent event){
 		if(event.getSource()==create_account_button){
-			CController cc = new CController();
 			char[] password = password_text.getPassword();
 			String passwordstr = new String(password);
-			cc.User_id = user_Id_text.getText();
-			cc.passwd = passwordstr;
-			if(cc.checkPasswordStrength())	cc.registerUser();
+			CController.User_id = user_Id_text.getText();
+			CController.passwd = passwordstr;
+			if(CController.checkPasswordStrength())	CController.registerUser();
 			else{
 				message_label.setForeground(Color.red);
 				displayMessage("※パスワードは英数字8~12文字で大文字を1文字以上含んでください");
@@ -150,12 +149,4 @@ public class LobbyScreen extends JFrame{
 		this.setVisible(false);
 	}
 
-	public static void main(String[] args) {
-
-		SwingUtilities.invokeLater(() -> {
-			LobbyScreen lobbyScreen = new LobbyScreen();
-			CController.lobbyScreen = lobbyScreen;
-			lobbyScreen.setVisible(true);
-		});
-	}
 }

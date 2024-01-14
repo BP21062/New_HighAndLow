@@ -13,31 +13,44 @@ public class WebSocketEndpoint{
 	static Gson gson = new Gson();
 	static String order;
 
+	Session session;
+
 	@OnOpen
 	public void onOpen(Session session){
 		System.out.println("[client] onOpen:" + session.getId());
+		this.session = session;
 	}
 
 	@OnMessage
 	public void onMessage(String message){
 
 		// 受信した生のメッセージ
-		System.out.println("[client] onMessage: " + message);
+		//System.out.println("[client] onMessage: " + message);
 
 		// 変換：String -> SampleMessage
 		Message receivedMessage = gson.fromJson(message, Message.class);
 
 		// 各要素を見てみる
 		if(receivedMessage.order.equals("2000")){
-			if(receivedMessage.result=true){
+			if(receivedMessage.result == false){
 				CController.lobbyScreen.displayMessage("※データベースへの登録完了");
+				try{
+					session.close();
+				}catch(IOException e){
+					throw new RuntimeException(e);
+				}
 			}
 			else{
 				CController.lobbyScreen.displayMessage("※ユーザーIDが重複しています");
+				try{
+					session.close();
+				}catch(IOException e){
+					throw new RuntimeException(e);
+				}
 			}
 		}
 		if(receivedMessage.order.equals("2001")){
-			if(receivedMessage.result=true){
+			if(receivedMessage.result){
 				CController.lobbyScreen.displayMessage("ログイン成功");
 				CController.lobbyScreen.changeScreen("Start",receivedMessage.messageContent.user_id);
 			}
@@ -69,13 +82,10 @@ public class WebSocketEndpoint{
 		}
 
 		if(receivedMessage.order.equals("5002")){
-			if(receivedMessage.result=true){
-				CController.waitScreen.StartGame();
-			}
-			else{
-				CController.waitScreen.displayMessage("※ゲームが開始されませんでした");
-				CController.waitScreen.changeScreen("Start");
-			}
+			Message sendMessage = new Message("1004",receivedMessage.messageContent.user_id);
+			sendMessage.result = true;
+			String send_message = gson.toJson(sendMessage);
+			sendMessage(send_message);
 		}
 
 		if(receivedMessage.order.equals("5003")){
@@ -104,5 +114,13 @@ public class WebSocketEndpoint{
 		/* セッション解放時の処理 */
 		String log = client.getId() + " was closed by " + reason.getCloseCode() + "[" + reason.getCloseCode().getCode() + "]";
 		System.out.println(log);
+	}
+	public void sendMessage(String text) {
+		System.out.println("[client] sendMessage(): " + text);
+		try {
+			this.session.getBasicRemote().sendText(text);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

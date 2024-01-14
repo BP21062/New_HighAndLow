@@ -4,13 +4,12 @@ import javax.swing.*;
 
 public class SController{
 
-	String User_id;
-	String passWard;
+	static String User_id;
 	int Room_id;
 	Message message;
 
 	SController(String user_id){
-		this.User_id = user_id;
+		User_id = user_id;
 	}
 
 	public void changeScreen(String screen_id){
