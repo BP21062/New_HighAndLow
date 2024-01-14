@@ -144,8 +144,7 @@ public class StartScreen extends JFrame{
 
 	public void pushRuleButton(ActionEvent event){
 		if(event.getSource()== rule_button){
-			CController cController=new CController();
-			cController.getRule();
+			CController.getRule();
 			//changeScreen("Rule");
 		}
 	}
@@ -170,7 +169,7 @@ public class StartScreen extends JFrame{
 					SController sController = new SController(user_id);
 					sController.User_id = user_id;
 					sController.Room_id = 1;
-					sController.changeScreen("Wait");
+					//sController.changeScreen("Wait");
 					this.setVisible(false);
 				}
 			}
