@@ -32,7 +32,8 @@ public class WebSocketEndpoint{
 
 		// 各要素を見てみる
 		if(receivedMessage.order.equals("2000")){
-			if(receivedMessage.result == false){
+			// 作成に成功したらtrue, 失敗したらfalse
+			if(receivedMessage.result){
 				CController.lobbyScreen.displayMessage("※データベースへの登録完了");
 				try{
 					session.close();
