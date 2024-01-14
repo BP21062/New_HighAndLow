@@ -137,7 +137,7 @@ public class StartScreen extends JFrame{
 	public void pushScoreButton(ActionEvent event){
 		if(event.getSource()== score_button){
 			CController cController=new CController();
-			cController.getScore();
+			cController.getScore(user_id);
 			//changeScreen("Score");
 		}
 	}
@@ -167,7 +167,7 @@ public class StartScreen extends JFrame{
 				}
 				if(room_state_flag){
 					cController.enter(user_id, 1);
-					SController sController = new SController();
+					SController sController = new SController(user_id);
 					sController.User_id = user_id;
 					sController.Room_id = 1;
 					sController.changeScreen("Wait");
@@ -190,7 +190,7 @@ public class StartScreen extends JFrame{
 				}
 				if(room_state_flag){
 					cController.enter(user_id, 2);
-					SController sController = new SController();
+					SController sController = new SController(user_id);
 					sController.User_id = user_id;
 					sController.Room_id = 2;
 					sController.changeScreen("Wait");
@@ -213,7 +213,7 @@ public class StartScreen extends JFrame{
 				}
 				if(room_state_flag){
 					cController.enter(user_id, 3);
-					SController sController = new SController();
+					SController sController = new SController(user_id);
 					sController.User_id = user_id;
 					sController.Room_id = 3;
 					sController.changeScreen("Wait");
@@ -236,7 +236,7 @@ public class StartScreen extends JFrame{
 				}
 				if(room_state_flag){
 					cController.enter(user_id, 4);
-					SController sController = new SController();
+					SController sController = new SController(user_id);
 					sController.User_id = user_id;
 					sController.Room_id = 4;
 					sController.changeScreen("Wait");
@@ -259,7 +259,7 @@ public class StartScreen extends JFrame{
 				}
 				if(room_state_flag){
 					cController.enter(user_id, 5);
-					SController sController = new SController();
+					SController sController = new SController(user_id);
 					sController.User_id = user_id;
 					sController.Room_id = 5;
 					sController.changeScreen("Wait");
@@ -282,7 +282,7 @@ public class StartScreen extends JFrame{
 				}
 				if(room_state_flag){
 					cController.enter(user_id, 6);
-					SController sController = new SController();
+					SController sController = new SController(user_id);
 					sController.User_id = user_id;
 					sController.Room_id = 6;
 					sController.changeScreen("Wait");
@@ -293,7 +293,7 @@ public class StartScreen extends JFrame{
 	}
 
 	public void changeScreen(String screen,Message message){
-		SController sc = new SController();
+		SController sc = new SController(user_id);
 		sc.message=message;
 		sc.changeScreen(screen);
 		this.setVisible(false);

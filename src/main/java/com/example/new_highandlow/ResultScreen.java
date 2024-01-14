@@ -70,7 +70,7 @@ public class ResultScreen extends JFrame{
 
 	public void pushReturnStartButton(ActionEvent event){
 		if(event.getSource()==return_start_button){
-			SController sc = new SController();
+			SController sc = new SController(user_id);
 			sc.changeScreen("Start");
 			this.setVisible(false);
 		}

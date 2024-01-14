@@ -96,6 +96,7 @@ public class WebSocketEndpoint{
 	@OnError
 	public void onError(Throwable t){
 		System.out.println("[client] onError");
+		System.out.println(t.getMessage());
 	}
 
 	@OnClose

@@ -10,12 +10,15 @@ public class ScoreScreen extends JFrame{
 	private JLabel title_label;
 	private JTextArea score_area;
 
-	public ScoreScreen(Message message){
+	private String user_id;
+
+	public ScoreScreen(Message message, String user_id){
+		this.user_id = user_id;
 		int play_count=message.messageContent.num_plays_score;
 		int win_count=message.messageContent.num_wins_score;
 		int hit_count=message.messageContent.num_hits_score;
 		double win_rate=(double) win_count/(double) play_count;
-		double hit_rate=(double) hit_count/(double) play_count*5;
+		double hit_rate=(double) hit_count/((double) play_count*5);
 		String scoreString="プレイ回数： "+play_count+"\n\n勝利数: "+win_count+"\n\nヒット数: "+hit_count+"\n\n勝率:"+win_rate+"\n\nヒット率:"+hit_rate;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +73,7 @@ public class ScoreScreen extends JFrame{
 	}
 
 	public void changeScreen(String screen){
-		SController sc = new SController();
+		SController sc = new SController(user_id);
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}
