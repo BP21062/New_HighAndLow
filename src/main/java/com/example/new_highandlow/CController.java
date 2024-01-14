@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 
 //WebSocketClientSample.java
 public class CController{
-	public static String User_id;
+	public static String user_id;
 	public static String passwd;
 
 	static CServerConnector lobby_connect;
@@ -42,7 +42,7 @@ public class CController{
 
 	public static void registerUser(){
 		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("2", User_id);
+		Message sendMessage = new Message("2", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		sendMessage.messageContent.password = passwd;
 		String sendMessageJson = gson.toJson(sendMessage);
@@ -59,7 +59,7 @@ public class CController{
 	public void login(){
 		System.out.println("sendMessage()");
 		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("4", User_id);
+		Message sendMessage = new Message("4", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		sendMessage.messageContent.password = passwd;
 		String sendMessageJson = gson.toJson(sendMessage);
@@ -99,7 +99,7 @@ public class CController{
 	public static void getRule(){
 		System.out.println("戦績を表示");
 		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("1001", User_id);
+		Message sendMessage = new Message("1001", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
 		// 変換後の書式を表示してみる。JSON
@@ -109,8 +109,8 @@ public class CController{
 
 	public void enter(String user_id, int room_id){
 		SController sc = new SController(user_id);
-		sc.Room_id = room_id;
-		sc.User_id = user_id;
+		sc.room_id = room_id;
+		sc.user_id = user_id;
 		System.out.println("sendMessage()");
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("1003", user_id);
@@ -123,7 +123,7 @@ public class CController{
 		if(app_connect.connect()){
 			app_connect.sendMessage(sendMessageJson);
 			startScreen.setVisible(false);
-			waitScreen = new WaitScreen(User_id, room_id);
+			waitScreen = new WaitScreen(user_id, room_id);
 			waitScreen.setVisible(true);
 		}else{
 			startScreen.displayMessage("※接続に失敗しました");
@@ -132,8 +132,8 @@ public class CController{
 
 	public boolean checkRoomState(String user_id, int room_id){
 		SController sc = new SController(user_id);
-		sc.Room_id = room_id;
-		sc.User_id = user_id;
+		sc.room_id = room_id;
+		sc.user_id = user_id;
 		System.out.println("sendMessage()");
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("6", user_id);
