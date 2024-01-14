@@ -3,7 +3,7 @@ package com.example.new_highandlow;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.websocket.DeploymentException;
+import jakarta.websocket.DeploymentException;
 
 import com.google.gson.Gson;
 
@@ -63,9 +63,45 @@ public class CController implements Runnable{
 				// 変換後の書式を表示してみる。（JSON）
 				//System.out.println(sendMessageJson);
 				//wsManager.sendMessage(sendMessageJson);
+
+				// LobbyUnitTest
+
+				CServerConnector lobby = new CServerConnector(serverLobbyEndpoint);
+				lobby.connect();
+
+				// registerUser
+				Message message2 = new Message("2","user");
+				message2.messageContent.password = "password";
+
+				// login
+				Message message4 = new Message("4", "user");
+				message4.messageContent.password = "password";
+
+				// checkRoomState
+				Message message6 = new Message("6","user");
+				message6.messageContent.room_id = 2;
+
+				// getScore
+				Message message8 = new Message("8","user");
+
+				// getRule
+				Message message9 = new Message("9","user");
+
+				// logout
+				Message message7 = new Message("7","user");
+
+				lobby.sendMessage(gson.toJson(message2));
+				lobby.sendMessage(gson.toJson(message4));
+				lobby.sendMessage(gson.toJson(message6));
+				lobby.sendMessage(gson.toJson(message8));
+				lobby.sendMessage(gson.toJson(message9));
+				lobby.sendMessage(gson.toJson(message7));
+
+
+
 			}
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(100000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

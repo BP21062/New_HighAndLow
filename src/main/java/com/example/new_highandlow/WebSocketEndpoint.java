@@ -1,6 +1,6 @@
 package com.example.new_highandlow;
 
-import javax.websocket.*;
+import jakarta.websocket.*;
 
 import com.google.gson.Gson;
 

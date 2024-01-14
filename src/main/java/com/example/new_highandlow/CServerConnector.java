@@ -2,17 +2,14 @@ package com.example.new_highandlow;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
-import java.util.Objects;
 
-import javax.websocket.*;
+import jakarta.websocket.*;
 
 import static com.example.new_highandlow.CController.gson;
 
-
 //WebSocketManagerSample.java
 //@ClientEndpoint
-public class CServerConnector{
+public class CServerConnector {
 
 	Session session;
 	WebSocketContainer container;
@@ -38,14 +35,13 @@ public class CServerConnector{
 		Message receivedMessage = gson.fromJson(message, Message.class);
 
 		// 各要素を見てみる
-		if(receivedMessage.order.equals("5002")){
-			//SController sc = new SController();
-			//sc.changeScreen("Game");
+		if (receivedMessage.order.equals("5002")) {
+			// SController sc = new SController();
+			// sc.changeScreen("Game");
 		}
 
-
 		// 変換：SampleMessage -> String
-		//System.out.println(gson.toJson(receivedMessage));
+		// System.out.println(gson.toJson(receivedMessage));
 	}
 
 	@OnError
@@ -60,7 +56,7 @@ public class CServerConnector{
 	}
 
 	public boolean isConnected() {
-		//System.out.println("[client] isConnected(): " + session.isOpen());
+		// System.out.println("[client] isConnected(): " + session.isOpen());
 		return session.isOpen();
 	}
 
@@ -83,10 +79,10 @@ public class CServerConnector{
 		}
 	}
 
-	public void disconnect(){
+	public void disconnect() {
 		System.out.println("[client] disconnect(): " + uri);
 		try {
-			if(!session.isOpen()) {
+			if (!session.isOpen()) {
 				session.close();
 			}
 		} catch (Exception e) {
