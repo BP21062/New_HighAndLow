@@ -86,7 +86,9 @@ public class CController{
 		// 結局メッセージは送らずdisconnect()だけ
 
 		lobby_connect.disconnect();
-		app_connect.disconnect();
+		if (app_connect != null){
+			app_connect.disconnect();
+		}
 		
 	}
 
@@ -94,7 +96,7 @@ public class CController{
 	public void getScore(String user_id){
 
 		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("1000", user_id);
+		Message sendMessage = new Message("8", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
 
@@ -108,7 +110,7 @@ public class CController{
 	public static void getRule(){
 
 		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("1001", user_id);
+		Message sendMessage = new Message("9", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
 
