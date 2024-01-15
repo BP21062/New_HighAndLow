@@ -100,7 +100,7 @@ public class CController{
 		lobby_connect.sendMessage(sendMessageJson);
 	}
 
-	public static void getRule(){
+	public void getRule(){
 		System.out.println("戦績を表示");
 		// 試しにSampleMessageのインスタンスを作ってみる
 		Message sendMessage = new Message("1001", User_id);
@@ -129,6 +129,7 @@ public class CController{
 			startScreen.setVisible(false);
 			waitScreen = new WaitScreen(User_id, room_id);
 			waitScreen.setVisible(true);
+			waitScreen.displayRoomNumber(room_id);
 		}else{
 			startScreen.displayMessage("※接続に失敗しました");
 		}
@@ -146,12 +147,13 @@ public class CController{
 		String sendMessageJson = gson.toJson(sendMessage);
 		// 変換後の書式を表示してみる。JSON
 		System.out.println(sendMessageJson);
-		if(lobby_connect.isConnected()){
+		if(lobby_connect.connect()){
 			lobby_connect.sendMessage(sendMessageJson);
 			return true;
-		}else
+		}else{
 			startScreen.displayMessage("※接続に失敗しました");
-		return false;
+			return false;
+		}
 	}
 
 	public static void main(String[] args) {

@@ -144,7 +144,8 @@ public class StartScreen extends JFrame{
 
 	public void pushRuleButton(ActionEvent event){
 		if(event.getSource()== rule_button){
-			CController.getRule();
+			CController cController=new CController();
+			cController.getRule();
 			//changeScreen("Rule");
 		}
 	}
