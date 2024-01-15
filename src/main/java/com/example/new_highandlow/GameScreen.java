@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameScreen extends JFrame implements Runnable {
+public class GameScreen extends JFrame implements Runnable{
 	private ArrayList<String> deck_information = new ArrayList<>();
 	private ArrayList<String> card_information = new ArrayList<>();
 	private int trump2_pattern_hearts, trump2_pattern_diamonds, trump2_pattern_spades, trump2_pattern_clubs;
@@ -16,9 +16,12 @@ public class GameScreen extends JFrame implements Runnable {
 	private JLabel remain_time_label, trump2_pattern_label, user_score_label;
 	private JButton high_button, just_button, low_button;
 	private JButton hearts_button, diamonds_button, spades_button, clubs_button;
-	private JLabel HLJChoice, PTChoice;
+	private JLabel HLJChoice,PTChoice;
+	private String user_id;
+	private int room_id;
+	static Gson gson = new Gson();
 
-	public GameScreen() {
+	public GameScreen(String user_id){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Game Screen");
@@ -36,12 +39,10 @@ public class GameScreen extends JFrame implements Runnable {
 		back_ground_panel.setLayout(null);
 		back_ground_panel.setOpaque(false);
 
-		ImageIcon icon1 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump1.png");
-		trump1_card_label = new JLabel(icon1);
+		trump1_card_label = new JLabel();
 		trump1_card_label.setBounds(300, 130, 140, 200);
 
-		ImageIcon icon2 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump2.png");
-		trump2_card_label = new JLabel(icon2);
+		trump2_card_label = new JLabel();
 		trump2_card_label.setBounds(500, 130, 140, 200);
 
 		remain_time_label = new JLabel();
@@ -138,109 +139,235 @@ public class GameScreen extends JFrame implements Runnable {
 		back_ground_panel.add(clubs_button);
 		setContentPane(back_ground_panel);
 
+		this.user_id = user_id;
+
 		Thread thread = new Thread(this);
 		thread.start();
 	}
 
-	public void displayRemainTime(int time) {
+	public void displayRemainTime(int time){
 		String num = String.format(" 残り時間：%d ", time);
 		remain_time_label.setText(num);
 	}
 
-	public void displaySecondCardInformation(List<Integer> pattern_list) {
-		List<Integer> patterns = new ArrayList<>();
-		// たぶんこれも値をコピーしたかった？
-		for (int a = 0; a < 4; a++) {
-			patterns.add(pattern_list.get(a));
-		}
-		String num = String.format("<html><body>&nbsp;2枚目の柄<br />" +
-				"&nbsp;&emsp;♡×" + patterns.get(0) + "<br />" +
-				"&nbsp;&emsp;♢×" + patterns.get(1) + "<br />" +
-				"&nbsp;&emsp;♠×" + patterns.get(2) + "<br />" +
-				"&nbsp;&emsp;♣×" + patterns.get(3) + "<br /></body></html>");
-		trump2_pattern_label.setText(num);
+	public void displayCardInformation(List<Integer> pattern_list, String image_data, int room_id){
+		String second_pattern = "<html><body>&nbsp;2枚目の柄<br />" +
+				"&nbsp;&emsp;♡×" + pattern_list.get(0) + "<br />" +
+				"&nbsp;&emsp;♢×" + pattern_list.get(1) + "<br />" +
+				"&nbsp;&emsp;♠×" + pattern_list.get(2) + "<br />" +
+				"&nbsp;&emsp;♣×" + pattern_list.get(3) + "<br /></body></html>";
+		trump2_pattern_label.setText(second_pattern);
+
+		ImageIcon first_card = new ImageIcon(image_data);
+		trump1_card_label = new JLabel(first_card);
+
+		SController sc = new SController(user_id);
+		sc.Room_id = room_id;
+		sc.User_id = user_id;
+		this.room_id = room_id; //room番号記憶
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1006", user_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.result = true;
+		sendMessage.messageContent.room_id = room_id;
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		CController.app_connect.sendMessage(sendMessageJson);
 	}
 
-	public void displayCurrentScore(List<Integer> score_list) {
-		List<Integer> scores = new ArrayList<>();
-		// たぶんArrayListをコピーしたかった？
-		for (int a = 0; a < 4; a++) {
-			scores.add(score_list.get(a));
-		}
-		String num = String.format("<html><body>&nbsp;Player1：" + scores.get(0) + "<br />" +
-				"&nbsp;Player2：" + scores.get(1) + "<br />" +
-				"&nbsp;Player3：" + scores.get(2) + "<br />" +
-				"&nbsp;Player4：" + scores.get(3) + "<br /></body></html>");
-		user_score_label.setText(num);
+	public void displaySecondCard(String image_data, int room_id, List<Integer> score_list){
+		ImageIcon second_card = new ImageIcon(image_data);
+		trump2_card_label = new JLabel(second_card);
+
+		SController sc = new SController(user_id);
+		sc.Room_id = room_id;
+		sc.User_id = user_id;
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1007", user_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.result = true;
+		sendMessage.messageContent.room_id = room_id;
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		CController.app_connect.sendMessage(sendMessageJson);
+	}
+
+	public void displayCurrentScore(List<Integer> score_list, List<String> user_list, int room_id){
+		String score = "<html><body>&nbsp;" + user_list.get(0) + "：" + score_list.get(0) + "<br />" +
+				"&nbsp;" + user_list.get(1) + "：" + score_list.get(1) + "<br />" +
+				"&nbsp;" + user_list.get(2) + "：" + score_list.get(2) + "<br />" +
+				"&nbsp;" + user_list.get(3) + "：" + score_list.get(3) + "<br /></body></html>";
+		user_score_label.setText(score);
+
+		SController sc = new SController(user_id);
+		sc.Room_id = room_id;
+		sc.User_id = user_id;
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1005", user_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.result = true;
+		sendMessage.messageContent.room_id = room_id;
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		CController.app_connect.sendMessage(sendMessageJson);
 	}
 
 	/*
-	 * public void pushHighButton(ActionEvent event){
-	 * if(event.getSource()==high_button){}
-	 * }
-	 * 
-	 * public void pushJustButton(ActionEvent event){
-	 * if(event.getSource()==just_button){}
-	 * }
-	 * 
-	 * public void pushLowButton(ActionEvent event){
-	 * if(event.getSource()==low_button){}
-	 * }
-	 * 
-	 * public void pushHeartsButton(ActionEvent event){
-	 * if(event.getSource()==hearts_button){}
-	 * }
-	 * 
-	 * public void pushDiamondsButton(ActionEvent event){
-	 * if(event.getSource()==diamonds_button){}
-	 * }
-	 * 
-	 * public void pushSpadesButton(ActionEvent event){
-	 * if(event.getSource()==spades_button){}
-	 * }
-	 * 
-	 * public void pushClubsButton(ActionEvent event){
-	 * if(event.getSource()==clubs_button){}
-	 * }
-	 */
+	public void pushHighButton(ActionEvent event){
+		if(event.getSource()==high_button){}
+	}
 
-	public void turnUP() {
+	public void pushJustButton(ActionEvent event){
+		if(event.getSource()==just_button){}
+	}
+
+	public void pushLowButton(ActionEvent event){
+		if(event.getSource()==low_button){}
+	}
+
+	public void pushHeartsButton(ActionEvent event){
+		if(event.getSource()==hearts_button){}
+	}
+
+	public void pushDiamondsButton(ActionEvent event){
+		if(event.getSource()==diamonds_button){}
+	}
+
+	public void pushSpadesButton(ActionEvent event){
+		if(event.getSource()==spades_button){}
+	}
+
+	public void pushClubsButton(ActionEvent event){
+		if(event.getSource()==clubs_button){}
+	}
+*/
+
+	public void turnUP(){
 		spades_button.setEnabled(true);
 		diamonds_button.setEnabled(true);
 		clubs_button.setEnabled(true);
 		hearts_button.setEnabled(true);
 	}
 
-	public void pushButton(ActionEvent event) {
+	public void pushButton(ActionEvent event){
 		String cmd = event.getActionCommand();
-		if (cmd.equals("High")) {
-			System.out.println("h");
+		if(cmd.equals("High")){
+			SController sc = new SController(user_id);
+			sc.Room_id = room_id;
+			sc.User_id = user_id;
+			System.out.println("sendMessage()");
+			// 試しにSampleMessageのインスタンスを作ってみる
+			Message sendMessage = new Message("1007", user_id);
+			// クラスオブジェクトをString (JSON) に変換する
+			sendMessage.messageContent.room_id = room_id;
+			sendMessage.messageContent.choice = "high";
+			String sendMessageJson = gson.toJson(sendMessage);
+			// 変換後の書式を表示してみる。JSON
+			System.out.println(sendMessageJson);
+			CController.app_connect.sendMessage(sendMessageJson);
 			turnUP();
-		} else if (cmd.equals("Low")) {
-			System.out.println("l");
+		}else if(cmd.equals("Low")){
+			SController sc = new SController(user_id);
+			sc.Room_id = room_id;
+			sc.User_id = user_id;
+			System.out.println("sendMessage()");
+			// 試しにSampleMessageのインスタンスを作ってみる
+			Message sendMessage = new Message("1007", user_id);
+			// クラスオブジェクトをString (JSON) に変換する
+			sendMessage.messageContent.room_id = room_id;
+			sendMessage.messageContent.choice = "low";
+			String sendMessageJson = gson.toJson(sendMessage);
+			// 変換後の書式を表示してみる。JSON
+			System.out.println(sendMessageJson);
+			CController.app_connect.sendMessage(sendMessageJson);
 			turnUP();
-		} else if (cmd.equals("Just")) {
-			System.out.println("j");
+		}else if(cmd.equals("Just")){
+			SController sc = new SController(user_id);
+			sc.Room_id = room_id;
+			sc.User_id = user_id;
+			System.out.println("sendMessage()");
+			// 試しにSampleMessageのインスタンスを作ってみる
+			Message sendMessage = new Message("1007", user_id);
+			// クラスオブジェクトをString (JSON) に変換する
+			sendMessage.messageContent.room_id = room_id;
+			sendMessage.messageContent.choice = "just";
+			String sendMessageJson = gson.toJson(sendMessage);
+			// 変換後の書式を表示してみる。JSON
+			System.out.println(sendMessageJson);
+			CController.app_connect.sendMessage(sendMessageJson);
 			turnUP();
 		}
 	}
 
-	public void pushPatternButton(ActionEvent event) {
+	public void pushPatternButton(ActionEvent event){
 		String cmd = event.getActionCommand();
-		if (cmd.equals("heart")) {
-			System.out.println("he");
-		} else if (cmd.equals("dia")) {
-			System.out.println("d");
-		} else if (cmd.equals("club")) {
-			System.out.println("c");
-		} else if (cmd.equals("spade")) {
-			System.out.println("s");
+		if(cmd.equals("heart")){
+			SController sc = new SController(user_id);
+			sc.Room_id = room_id;
+			sc.User_id = user_id;
+			System.out.println("sendMessage()");
+			// 試しにSampleMessageのインスタンスを作ってみる
+			Message sendMessage = new Message("1007", user_id);
+			// クラスオブジェクトをString (JSON) に変換する
+			sendMessage.messageContent.room_id = room_id;
+			sendMessage.messageContent.pattern = "heart";
+			String sendMessageJson = gson.toJson(sendMessage);
+			// 変換後の書式を表示してみる。JSON
+			System.out.println(sendMessageJson);
+			CController.app_connect.sendMessage(sendMessageJson);
+		}else if(cmd.equals("dia")){
+			SController sc = new SController(user_id);
+			sc.Room_id = room_id;
+			sc.User_id = user_id;
+			System.out.println("sendMessage()");
+			// 試しにSampleMessageのインスタンスを作ってみる
+			Message sendMessage = new Message("1007", user_id);
+			// クラスオブジェクトをString (JSON) に変換する
+			sendMessage.messageContent.room_id = room_id;
+			sendMessage.messageContent.pattern = "diamond";
+			String sendMessageJson = gson.toJson(sendMessage);
+			// 変換後の書式を表示してみる。JSON
+			System.out.println(sendMessageJson);
+			CController.app_connect.sendMessage(sendMessageJson);
+		}else if(cmd.equals("club")){
+			SController sc = new SController(user_id);
+			sc.Room_id = room_id;
+			sc.User_id = user_id;
+			System.out.println("sendMessage()");
+			// 試しにSampleMessageのインスタンスを作ってみる
+			Message sendMessage = new Message("1007", user_id);
+			// クラスオブジェクトをString (JSON) に変換する
+			sendMessage.messageContent.room_id = room_id;
+			sendMessage.messageContent.pattern = "club";
+			String sendMessageJson = gson.toJson(sendMessage);
+			// 変換後の書式を表示してみる。JSON
+			System.out.println(sendMessageJson);
+			CController.app_connect.sendMessage(sendMessageJson);
+		}else if(cmd.equals("spade")){
+			SController sc = new SController(user_id);
+			sc.Room_id = room_id;
+			sc.User_id = user_id;
+			System.out.println("sendMessage()");
+			// 試しにSampleMessageのインスタンスを作ってみる
+			Message sendMessage = new Message("1007", user_id);
+			// クラスオブジェクトをString (JSON) に変換する
+			sendMessage.messageContent.room_id = room_id;
+			sendMessage.messageContent.pattern = "spade";
+			String sendMessageJson = gson.toJson(sendMessage);
+			// 変換後の書式を表示してみる。JSON
+			System.out.println(sendMessageJson);
+			CController.app_connect.sendMessage(sendMessageJson);
 		}
 	}
-
 	@Override
-	public void run() {
-		for (int i = 0; i < 5; i++) {
+	public void run(){
+		for(int i=0;i<5;i++){
 			high_button.setEnabled(false);
 			just_button.setEnabled(false);
 			low_button.setEnabled(false);
@@ -248,27 +375,29 @@ public class GameScreen extends JFrame implements Runnable {
 			diamonds_button.setEnabled(false);
 			clubs_button.setEnabled(false);
 			hearts_button.setEnabled(false);
-			try {
+			try{
 				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
 			high_button.setEnabled(true);
 			just_button.setEnabled(true);
 			low_button.setEnabled(true);
 
-			for (int j = 0; j < 5; j++) {
-				displayRemainTime(5 - j);
-				try {
+			for(int j=0;j<5;j++){
+				displayRemainTime(5-j);
+				try{
 					Thread.sleep(1000);
-				} catch (InterruptedException e) {
+				}catch(InterruptedException e){
 					e.printStackTrace();
 				}
 			}
 			displayRemainTime(0);
 		}
 
+		SController sController = new SController(user_id);
+		sController.User_id = user_id;
+		sController.changeScreen("Result");
 		this.setVisible(false);
-		SController.changeScreen("Result");
 	}
 }
