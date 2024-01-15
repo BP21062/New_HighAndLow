@@ -17,9 +17,8 @@ public class GameScreen extends JFrame implements Runnable {
 	private JButton high_button, just_button, low_button;
 	private JButton hearts_button, diamonds_button, spades_button, clubs_button;
 	private JLabel HLJChoice, PTChoice;
-	private String user_id;
 
-	public GameScreen(String user_id) {
+	public GameScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Game Screen");
@@ -139,8 +138,6 @@ public class GameScreen extends JFrame implements Runnable {
 		back_ground_panel.add(clubs_button);
 		setContentPane(back_ground_panel);
 
-		this.user_id = user_id;
-
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -152,8 +149,9 @@ public class GameScreen extends JFrame implements Runnable {
 
 	public void displaySecondCardInformation(List<Integer> pattern_list) {
 		List<Integer> patterns = new ArrayList<>();
+		// たぶんこれも値をコピーしたかった？
 		for (int a = 0; a < 4; a++) {
-			patterns.set(a, pattern_list.get(a));
+			patterns.add(pattern_list.get(a));
 		}
 		String num = String.format("<html><body>&nbsp;2枚目の柄<br />" +
 				"&nbsp;&emsp;♡×" + patterns.get(0) + "<br />" +
@@ -165,8 +163,9 @@ public class GameScreen extends JFrame implements Runnable {
 
 	public void displayCurrentScore(List<Integer> score_list) {
 		List<Integer> scores = new ArrayList<>();
+		// たぶんArrayListをコピーしたかった？
 		for (int a = 0; a < 4; a++) {
-			scores.set(a, score_list.get(a));
+			scores.add(score_list.get(a));
 		}
 		String num = String.format("<html><body>&nbsp;Player1：" + scores.get(0) + "<br />" +
 				"&nbsp;Player2：" + scores.get(1) + "<br />" +
@@ -269,8 +268,7 @@ public class GameScreen extends JFrame implements Runnable {
 			displayRemainTime(0);
 		}
 
-		SController sController = new SController(user_id);
-		sController.changeScreen("Result");
 		this.setVisible(false);
+		SController.changeScreen("Result");
 	}
 }

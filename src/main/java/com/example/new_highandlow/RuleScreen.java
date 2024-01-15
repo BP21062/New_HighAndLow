@@ -11,10 +11,9 @@ public class RuleScreen extends JFrame {
 
 	private JPanel back_ground_panel;
 	private JButton return_start_button;
-	private String user_id;
 
-	public RuleScreen(Message message, String user_id) {
-		this.user_id = user_id;
+	// 画像が必要なので、Messageクラスを引数にする
+	public RuleScreen(Message message) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Rule Screen");
@@ -28,11 +27,9 @@ public class RuleScreen extends JFrame {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				ImageIcon image = new ImageIcon();
-				System.out.println(image);
 				try (InputStream input = new ByteArrayInputStream(Base64.getDecoder().decode(base64data))) {
 					image = new ImageIcon(ImageIO.read(input));
 					g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), this);
-					System.out.println(image);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -51,7 +48,6 @@ public class RuleScreen extends JFrame {
 		back_ground_panel.add(return_start_button);
 
 		setContentPane(back_ground_panel);
-		setVisible(true);
 	}
 
 	private void pushReturnStartButton(ActionEvent event){
@@ -61,8 +57,7 @@ public class RuleScreen extends JFrame {
 	}
 
 	public void changeScreen(String screen){
-		SController sc = new SController(user_id);
-		sc.changeScreen(screen);
 		this.setVisible(false);
+		SController.changeScreen(screen);
 	}
 }

@@ -10,15 +10,14 @@ public class StartScreen extends JFrame {
 			score_button, rule_button;
 	private JPanel back_ground_panel;
 	private JLabel title_label, message_label;
-	private ArrayList<Button> enter_room_button_list; // 不要っぽそう
+	private ArrayList<JButton> enter_room_button_list; // 不要っぽそう
 	private ArrayList<String> numberofpeople_list; // 各部屋に入っている人数を格納するリスト
 	// 要求仕様書のように部屋に入っている人数を表示するなら、画面遷移の時にアプリケーションサーバから引っ張ってくる必要がある
 	private String user_id; // pushLogoutButton()で必要だが、現時点で未定義
 	// 「addUserid(user_id)」のようなメソッドを定義して、LobbyScreenから遷移する時に引っ張ってくるのが簡単そう
-	public static boolean room_state_flag; // 部屋の入室可否変数
+	public static Boolean room_state_flag; // 部屋の入室可否変数
 
-	public StartScreen(String user_id) {
-		this.user_id = user_id;
+	public StartScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Start Screen");
@@ -121,174 +120,91 @@ public class StartScreen extends JFrame {
 		back_ground_panel.add(rule_button);
 
 		setContentPane(back_ground_panel);
-		this.setVisible(true);
 	}
 
 	public void pushLogoutButton(ActionEvent event) {
 		if (event.getSource() == logout_button) {
-			CController cController = new CController();
-			cController.logout(this.user_id);
-			Message message = null;
-			changeScreen("Lobby", message);
+			CController.logout();
+			changeScreen("Lobby");
 		}
 	}
 
 	public void pushScoreButton(ActionEvent event) {
 		if (event.getSource() == score_button) {
-			CController cController = new CController();
-			cController.getScore(user_id);
+			CController.getScore();
 			// changeScreen("Score");
 		}
 	}
 
 	public void pushRuleButton(ActionEvent event) {
 		if (event.getSource() == rule_button) {
-			CController.getRule();
-			// changeScreen("Rule");
+			if (CController.ruleScreen == null) {
+				CController.getRule();
+			}
+			
+			changeScreen("Rule");
 		}
 	}
 
 	public void pushEnterRoomButton(ActionEvent event) {
+
+		int room_id = 0;
+
 		if (event.getSource() == room1_button) {
-			room_state_flag = false;
-			CController cController = new CController();
-			if (cController.checkRoomState(user_id, 1)) {
-				/*
-				 * checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
-				 * 次の処理を開始してしまう非同期処理になる?
-				 * ⇒便宜的にウェイトを置いて対処
-				 */
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if (room_state_flag) {
-					cController.enter(user_id, 1);
-					SController sController = new SController(user_id);
-					sController.room_id = 1;
-					// sController.changeScreen("Wait");
-					this.setVisible(false);
-				}
-			}
+			room_id = 1;
 		} else if (event.getSource() == room2_button) {
-			room_state_flag = false;
-			CController cController = new CController();
-			if (cController.checkRoomState(user_id, 2)) {
-				/*
-				 * checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
-				 * 次の処理を開始してしまう非同期処理になる?
-				 * ⇒便宜的にウェイトを置いて対処
-				 */
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if (room_state_flag) {
-					cController.enter(user_id, 2);
-					SController sController = new SController(user_id);
-					sController.room_id = 2;
-					sController.changeScreen("Wait");
-					this.setVisible(false);
-				}
-			}
+			room_id = 2;
 		} else if (event.getSource() == room3_button) {
-			room_state_flag = false;
-			CController cController = new CController();
-			if (cController.checkRoomState(user_id, 3)) {
-				/*
-				 * checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
-				 * 次の処理を開始してしまう非同期処理になる?
-				 * ⇒便宜的にウェイトを置いて対処
-				 */
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if (room_state_flag) {
-					cController.enter(user_id, 3);
-					SController sController = new SController(user_id);
-					sController.room_id = 3;
-					sController.changeScreen("Wait");
-					this.setVisible(false);
-				}
-			}
+			room_id = 3;
 		} else if (event.getSource() == room4_button) {
-			room_state_flag = false;
-			CController cController = new CController();
-			if (cController.checkRoomState(user_id, 4)) {
-				/*
-				 * checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
-				 * 次の処理を開始してしまう非同期処理になる?
-				 * ⇒便宜的にウェイトを置いて対処
-				 */
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if (room_state_flag) {
-					cController.enter(user_id, 4);
-					SController sController = new SController(user_id);
-					sController.room_id = 4;
-					sController.changeScreen("Wait");
-					this.setVisible(false);
-				}
-			}
+			room_id = 4;
 		} else if (event.getSource() == room5_button) {
-			room_state_flag = false;
-			CController cController = new CController();
-			if (cController.checkRoomState(user_id, 5)) {
-				/*
-				 * checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
-				 * 次の処理を開始してしまう非同期処理になる?
-				 * ⇒便宜的にウェイトを置いて対処
-				 */
+			room_id = 5;
+		} else if (event.getSource() == room6_button) {
+			room_id = 6;
+		} else {
+			System.out.println("[client] Error: pushEnterRoomButton()");
+		}
+
+		// まずnullを入れる
+		room_state_flag = null;
+
+		// これは接続できたか否か
+		if (CController.checkRoomState(user_id, room_id)) {
+			/*
+			 * checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
+			 * 次の処理を開始してしまう非同期処理になる?
+			 * ⇒便宜的にウェイトを置いて対処
+			 */
+
+
+			// 書き換えが来るとnullではなくなる
+			while (room_state_flag == null){
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
-				if (room_state_flag) {
-					cController.enter(user_id, 5);
-					SController sController = new SController(user_id);
-					sController.room_id = 5;
-					sController.changeScreen("Wait");
-					this.setVisible(false);
 				}
 			}
-		} else if (event.getSource() == room6_button) {
-			room_state_flag = false;
-			CController cController = new CController();
-			if (cController.checkRoomState(user_id, 6)) {
-				/*
-				 * checkRoomStateメソッドの処理終了(=入室可否が返信される)を待たずに
-				 * 次の処理を開始してしまう非同期処理になる?
-				 * ⇒便宜的にウェイトを置いて対処
-				 */
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if (room_state_flag) {
-					cController.enter(user_id, 6);
-					SController sController = new SController(user_id);
-					sController.room_id = 6;
-					sController.changeScreen("Wait");
-					this.setVisible(false);
-				}
+			if (room_state_flag) {
+				CController.enter(room_id);
+				SController.room_id = room_id;
+
+				this.setVisible(false);
+				changeScreen("Wait");
 			}
 		}
+
 	}
 
-	public void changeScreen(String screen, Message message) {
-		SController sc = new SController(user_id);
-		sc.message = message;
-		sc.changeScreen(screen);
+	public void changeScreen(String screen) {
 		this.setVisible(false);
+		SController.changeScreen(screen);
+		
+	}
+	public void changeScreen(String screen, Message message) {
+		this.setVisible(false);
+		SController.changeScreen(screen, message);
 	}
 
 	public void displayMessage(String displayString) {
