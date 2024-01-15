@@ -84,6 +84,7 @@ public class CController{
 		System.out.println("[client]: logout(): " + sendMessageJson+"\n");
 
 		lobby_connect.disconnect();
+		app_connect.disconnect();
 	}
 
 
