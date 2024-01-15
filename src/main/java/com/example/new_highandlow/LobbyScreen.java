@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class LobbyScreen extends JFrame{
+public class LobbyScreen extends JFrame {
 	private JPanel back_ground_panel;
 	private JTextField user_Id_text;
 	private JPasswordField password_text;
@@ -12,7 +12,7 @@ public class LobbyScreen extends JFrame{
 	private JLabel user_Id_label, password_label, message_label;
 	private JCheckBox showPassword;
 
-	public LobbyScreen(){
+	public LobbyScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Lobby Screen");
@@ -88,8 +88,8 @@ public class LobbyScreen extends JFrame{
 		this.setVisible(true);
 	}
 
-	public void pushLoginButton(ActionEvent event){
-		if(event.getSource()==login_button){
+	public void pushLoginButton(ActionEvent event) {
+		if (event.getSource() == login_button) {
 			String user = user_Id_text.getText().trim();
 			String pwd = new String(password_text.getPassword()).trim();
 
@@ -99,52 +99,51 @@ public class LobbyScreen extends JFrame{
 			} else if (user.isEmpty()) {
 				message_label.setForeground(Color.orange);
 				displayMessage("※ユーザIDを入力してください");
-			} else if (pwd.isEmpty()){
+			} else if (pwd.isEmpty()) {
 				message_label.setForeground(Color.orange);
 				displayMessage("※パスワードを入力してください");
-			} else{
+			} else {
 				CController cc = new CController();
 				char[] password = password_text.getPassword();
 				String passwordstr = new String(password);
-				cc.User_id = user_Id_text.getText();
-				cc.passwd = passwordstr;
+				CController.user_id = user_Id_text.getText();
+				CController.passwd = passwordstr;
 				cc.login();
 			}
 		}
 	}
 
-	public void pushCreateAccountButton(ActionEvent event){
-		if(event.getSource()==create_account_button){
+	public void pushCreateAccountButton(ActionEvent event) {
+		if (event.getSource() == create_account_button) {
 			char[] password = password_text.getPassword();
 			String passwordstr = new String(password);
-			CController.User_id = user_Id_text.getText();
+			CController.user_id = user_Id_text.getText();
 			CController.passwd = passwordstr;
-			if(CController.checkPasswordStrength())	CController.registerUser();
-			else{
+			if (CController.checkPasswordStrength())
+				CController.registerUser();
+			else {
 				message_label.setForeground(Color.red);
 				displayMessage("※パスワードは英数字8~12文字で大文字を1文字以上含んでください");
 			}
 		}
 	}
 
-	public void showPassword(ActionEvent event){
-		if(event.getSource()==showPassword){
-			if(showPassword.isSelected()){
+	public void showPassword(ActionEvent event) {
+		if (event.getSource() == showPassword) {
+			if (showPassword.isSelected()) {
 				password_text.setEchoChar((char) 0);
-			}
-			else{
+			} else {
 				password_text.setEchoChar('●');
 			}
 		}
 	}
 
-	public void displayMessage(String displayString){
+	public void displayMessage(String displayString) {
 		message_label.setText(displayString);
 	}
 
-	public void changeScreen(String screen,String user_id){
+	public void changeScreen(String screen, String user_id) {
 		SController sc = new SController(user_id);
-		sc.User_id=user_id;
 		sc.changeScreen(screen);
 		this.setVisible(false);
 	}

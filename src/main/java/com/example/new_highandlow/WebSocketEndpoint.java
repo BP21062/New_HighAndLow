@@ -1,6 +1,6 @@
 package com.example.new_highandlow;
 
-import javax.websocket.*;
+import jakarta.websocket.*;
 
 import com.google.gson.Gson;
 
@@ -32,7 +32,8 @@ public class WebSocketEndpoint{
 
 		// 各要素を見てみる
 		if(receivedMessage.order.equals("2000")){
-			if(receivedMessage.result == false){
+			// 作成に成功したらtrue, 失敗したらfalse
+			if(receivedMessage.result){
 				CController.lobbyScreen.displayMessage("※データベースへの登録完了");
 				try{
 					session.close();
@@ -81,9 +82,11 @@ public class WebSocketEndpoint{
 			}
 		}
 
+		// 5002(ゲーム開始の画面推移用)⇒1004(画面推移完了通知)
 		if(receivedMessage.order.equals("5002")){
 			Message sendMessage = new Message("1004",receivedMessage.messageContent.user_id);
 			sendMessage.result = true;
+			sendMessage.messageContent.room_id = receivedMessage.messageContent.room_id;
 			String send_message = gson.toJson(sendMessage);
 			sendMessage(send_message);
 		}

@@ -4,12 +4,12 @@ import javax.swing.*;
 
 public class SController{
 
-	static String User_id;
-	int Room_id;
+	static String user_id;
+	int room_id;
 	Message message;
 
 	SController(String user_id){
-		User_id = user_id;
+		SController.user_id = user_id;
 	}
 
 	public void changeScreen(String screen_id){
@@ -22,25 +22,25 @@ public class SController{
 					CController.lobbyScreen = lobbyScreen;
 					break;
 				case "Start":
-					StartScreen startScreen = new StartScreen(User_id);
+					StartScreen startScreen = new StartScreen(user_id);
 					newScreen = startScreen;
 					CController.startScreen = startScreen;
 					break;
 				case "Score":
-					ScoreScreen scoreScreen = new ScoreScreen(message,User_id);
+					ScoreScreen scoreScreen = new ScoreScreen(message,user_id);
 					newScreen = scoreScreen;
 					break;
 				case "Rule":
-					newScreen = new RuleScreen(message,User_id);
+					newScreen = new RuleScreen(message,user_id);
 					break;
 				case "Wait":
-					newScreen = new WaitScreen(User_id,Room_id);
+					newScreen = new WaitScreen(user_id,room_id);
 					break;
 				case "Game":
-					newScreen = new GameScreen(User_id);
+					newScreen = new GameScreen(user_id);
 					break;
 				case "Result":
-					newScreen = new ResultScreen(User_id);
+					newScreen = new ResultScreen(user_id);
 					break;
 			}
 

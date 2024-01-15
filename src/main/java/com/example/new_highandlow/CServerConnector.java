@@ -1,16 +1,9 @@
 package com.example.new_highandlow;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
-import java.util.Objects;
 
-import javax.websocket.*;
-
-import static com.example.new_highandlow.CController.gson;
-
+import jakarta.websocket.*;
 
 //WebSocketManagerSample.java
 //@ClientEndpoint
@@ -52,7 +45,7 @@ public class CServerConnector{
 	public void disconnect(){
 		System.out.println("[client] disconnect(): " + uri);
 		try {
-			if(!session.isOpen()) {
+			if(session.isOpen()) {
 				session.close();
 			}
 		} catch (Exception e) {

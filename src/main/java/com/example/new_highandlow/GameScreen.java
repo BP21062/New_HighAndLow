@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameScreen extends JFrame implements Runnable{
+public class GameScreen extends JFrame implements Runnable {
 	private ArrayList<String> deck_information = new ArrayList<>();
 	private ArrayList<String> card_information = new ArrayList<>();
 	private int trump2_pattern_hearts, trump2_pattern_diamonds, trump2_pattern_spades, trump2_pattern_clubs;
@@ -16,10 +16,10 @@ public class GameScreen extends JFrame implements Runnable{
 	private JLabel remain_time_label, trump2_pattern_label, user_score_label;
 	private JButton high_button, just_button, low_button;
 	private JButton hearts_button, diamonds_button, spades_button, clubs_button;
-	private JLabel HLJChoice,PTChoice;
+	private JLabel HLJChoice, PTChoice;
 	private String user_id;
 
-	public GameScreen(String user_id){
+	public GameScreen(String user_id) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Game Screen");
@@ -145,14 +145,14 @@ public class GameScreen extends JFrame implements Runnable{
 		thread.start();
 	}
 
-	public void displayRemainTime(int time){
+	public void displayRemainTime(int time) {
 		String num = String.format(" 残り時間：%d ", time);
 		remain_time_label.setText(num);
 	}
 
-	public void displaySecondCardInformation(List<Integer> pattern_list){
+	public void displaySecondCardInformation(List<Integer> pattern_list) {
 		List<Integer> patterns = new ArrayList<>();
-		for(int a=0;a<4;a++){
+		for (int a = 0; a < 4; a++) {
 			patterns.set(a, pattern_list.get(a));
 		}
 		String num = String.format("<html><body>&nbsp;2枚目の柄<br />" +
@@ -163,9 +163,9 @@ public class GameScreen extends JFrame implements Runnable{
 		trump2_pattern_label.setText(num);
 	}
 
-	public void displayCurrentScore(List<Integer> score_list){
+	public void displayCurrentScore(List<Integer> score_list) {
 		List<Integer> scores = new ArrayList<>();
-		for(int a=0;a<4;a++){
+		for (int a = 0; a < 4; a++) {
 			scores.set(a, score_list.get(a));
 		}
 		String num = String.format("<html><body>&nbsp;Player1：" + scores.get(0) + "<br />" +
@@ -176,71 +176,72 @@ public class GameScreen extends JFrame implements Runnable{
 	}
 
 	/*
-	public void pushHighButton(ActionEvent event){
-		if(event.getSource()==high_button){}
-	}
+	 * public void pushHighButton(ActionEvent event){
+	 * if(event.getSource()==high_button){}
+	 * }
+	 * 
+	 * public void pushJustButton(ActionEvent event){
+	 * if(event.getSource()==just_button){}
+	 * }
+	 * 
+	 * public void pushLowButton(ActionEvent event){
+	 * if(event.getSource()==low_button){}
+	 * }
+	 * 
+	 * public void pushHeartsButton(ActionEvent event){
+	 * if(event.getSource()==hearts_button){}
+	 * }
+	 * 
+	 * public void pushDiamondsButton(ActionEvent event){
+	 * if(event.getSource()==diamonds_button){}
+	 * }
+	 * 
+	 * public void pushSpadesButton(ActionEvent event){
+	 * if(event.getSource()==spades_button){}
+	 * }
+	 * 
+	 * public void pushClubsButton(ActionEvent event){
+	 * if(event.getSource()==clubs_button){}
+	 * }
+	 */
 
-	public void pushJustButton(ActionEvent event){
-		if(event.getSource()==just_button){}
-	}
-
-	public void pushLowButton(ActionEvent event){
-		if(event.getSource()==low_button){}
-	}
-
-	public void pushHeartsButton(ActionEvent event){
-		if(event.getSource()==hearts_button){}
-	}
-
-	public void pushDiamondsButton(ActionEvent event){
-		if(event.getSource()==diamonds_button){}
-	}
-
-	public void pushSpadesButton(ActionEvent event){
-		if(event.getSource()==spades_button){}
-	}
-
-	public void pushClubsButton(ActionEvent event){
-		if(event.getSource()==clubs_button){}
-	}
-*/
-
-	public void turnUP(){
+	public void turnUP() {
 		spades_button.setEnabled(true);
 		diamonds_button.setEnabled(true);
 		clubs_button.setEnabled(true);
 		hearts_button.setEnabled(true);
 	}
 
-	public void pushButton(ActionEvent event){
+	public void pushButton(ActionEvent event) {
 		String cmd = event.getActionCommand();
-		if(cmd.equals("High")){
+		if (cmd.equals("High")) {
 			System.out.println("h");
 			turnUP();
-		}else if(cmd.equals("Low")){
+		} else if (cmd.equals("Low")) {
 			System.out.println("l");
 			turnUP();
-		}else if(cmd.equals("Just")){
+		} else if (cmd.equals("Just")) {
 			System.out.println("j");
 			turnUP();
 		}
 	}
 
-	public void pushPatternButton(ActionEvent event){
+	public void pushPatternButton(ActionEvent event) {
 		String cmd = event.getActionCommand();
-		if(cmd.equals("heart")){
+		if (cmd.equals("heart")) {
 			System.out.println("he");
-		}else if(cmd.equals("dia")){
+		} else if (cmd.equals("dia")) {
 			System.out.println("d");
-		}else if(cmd.equals("club")){
+		} else if (cmd.equals("club")) {
 			System.out.println("c");
-		}else if(cmd.equals("spade")){
+		} else if (cmd.equals("spade")) {
 			System.out.println("s");
 		}
 	}
+
 	@Override
-	public void run(){
-		for(int i=0;i<5;i++){
+	public void run() {
+		for (int i = 0; i < 5; i++) {
 			high_button.setEnabled(false);
 			just_button.setEnabled(false);
 			low_button.setEnabled(false);
@@ -248,20 +249,20 @@ public class GameScreen extends JFrame implements Runnable{
 			diamonds_button.setEnabled(false);
 			clubs_button.setEnabled(false);
 			hearts_button.setEnabled(false);
-			try{
+			try {
 				Thread.sleep(1000);
-			}catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			high_button.setEnabled(true);
 			just_button.setEnabled(true);
 			low_button.setEnabled(true);
 
-			for(int j=0;j<5;j++){
-				displayRemainTime(5-j);
-				try{
+			for (int j = 0; j < 5; j++) {
+				displayRemainTime(5 - j);
+				try {
 					Thread.sleep(1000);
-				}catch(InterruptedException e){
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
@@ -269,7 +270,6 @@ public class GameScreen extends JFrame implements Runnable{
 		}
 
 		SController sController = new SController(user_id);
-		sController.User_id = user_id;
 		sController.changeScreen("Result");
 		this.setVisible(false);
 	}
