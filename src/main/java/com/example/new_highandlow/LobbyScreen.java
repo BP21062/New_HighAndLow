@@ -103,12 +103,13 @@ public class LobbyScreen extends JFrame {
 				message_label.setForeground(Color.orange);
 				displayMessage("※パスワードを入力してください");
 			} else {
-				CController cc = new CController();
 				char[] password = password_text.getPassword();
 				String passwordstr = new String(password);
+
 				CController.user_id = user_Id_text.getText();
 				CController.passwd = passwordstr;
-				cc.login();
+				
+				CController.login();
 			}
 		}
 	}
@@ -142,10 +143,10 @@ public class LobbyScreen extends JFrame {
 		message_label.setText(displayString);
 	}
 
-	public void changeScreen(String screen, String user_id) {
-		SController sc = new SController(user_id);
-		sc.changeScreen(screen);
+	public void changeScreen(String screen) {
 		this.setVisible(false);
+		SController.changeScreen(screen);
+		
 	}
 
 }

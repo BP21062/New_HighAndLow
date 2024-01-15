@@ -4,22 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class ScoreScreen extends JFrame{
+public class ScoreScreen extends JFrame {
 	private JButton return_start_button;
 	private JPanel back_ground_panel;
 	private JLabel title_label;
 	private JTextArea score_area;
+	private String scoreString;
 
-	private String user_id;
-
-	public ScoreScreen(Message message, String user_id){
-		this.user_id = user_id;
-		int play_count=message.messageContent.num_plays_score;
-		int win_count=message.messageContent.num_wins_score;
-		int hit_count=message.messageContent.num_hits_score;
-		double win_rate=(double) win_count/(double) play_count;
-		double hit_rate=(double) hit_count/((double) play_count*5);
-		String scoreString="プレイ回数： "+play_count+"\n\n勝利数: "+win_count+"\n\nヒット数: "+hit_count+"\n\n勝率:"+win_rate+"\n\nヒット率:"+hit_rate;
+	public ScoreScreen(Message message) {
+		if (message != null) {
+			reload(message);
+		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
@@ -31,7 +26,7 @@ public class ScoreScreen extends JFrame{
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				ImageIcon image = new ImageIcon("src/main/resources/com/example/new_highandlow/png/Game.png");	//背景画像は仮としてGame画面の物を使用
+				ImageIcon image = new ImageIcon("src/main/resources/com/example/new_highandlow/png/Game.png"); // 背景画像は仮としてGame画面の物を使用
 				g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
@@ -49,9 +44,9 @@ public class ScoreScreen extends JFrame{
 		return_start_button.setBackground(Color.blue);
 		return_start_button.setForeground(Color.white);
 
-		score_area =new JTextArea(scoreString);
-		score_area.setBounds(80,100,800,380);
-		score_area.setFont(new Font("ＭＳ ゴシック",Font.BOLD,35));
+		score_area = new JTextArea(scoreString);
+		score_area.setBounds(80, 100, 800, 380);
+		score_area.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 35));
 		score_area.setForeground(Color.black);
 		score_area.setBackground(Color.orange);
 		score_area.setEditable(false);
@@ -63,18 +58,30 @@ public class ScoreScreen extends JFrame{
 		back_ground_panel.add(score_area);
 
 		setContentPane(back_ground_panel);
-		this.setVisible(true);
 	}
 
-	private void pushReturnStartButton(ActionEvent event){
-		if(event.getSource()== return_start_button){
+	private void pushReturnStartButton(ActionEvent event) {
+		if (event.getSource() == return_start_button) {
 			changeScreen("Start");
 		}
 	}
 
-	public void changeScreen(String screen){
-		SController sc = new SController(user_id);
-		sc.changeScreen(screen);
+	public void changeScreen(String screen) {
 		this.setVisible(false);
+		SController.changeScreen(screen);
+
+	}
+
+	public void reload(Message message) {
+		int play_count = message.messageContent.num_plays_score;
+		int win_count = message.messageContent.num_wins_score;
+		int hit_count = message.messageContent.num_hits_score;
+		double win_rate = (double) win_count / (double) play_count;
+		double hit_rate = (double) hit_count / ((double) play_count * 5);
+		scoreString = "プレイ回数： " + play_count + "\n\n勝利数: " + win_count + "\n\nヒット数: " + hit_count + "\n\n勝率:" + win_rate
+				+ "\n\nヒット率:" + hit_rate;
+				
+		score_area.setText(scoreString);
+
 	}
 }

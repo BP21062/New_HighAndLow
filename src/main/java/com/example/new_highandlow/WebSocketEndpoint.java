@@ -30,13 +30,14 @@ public class WebSocketEndpoint {
 		// ルールの画像で流れるため
 		if (!receivedMessage.order.equals("2004")) {
 			// 受信した生のメッセージ
-			System.out.println("[client] onMessage: " + message);
+			System.out.println("[App] onMessage from (session: " + session.getId() + ") msg: " + message);
 		}else{
 			System.out.println("[client] onMessage: rule");
 		}
 
 		// 各要素を見てみる
 		if (receivedMessage.order.equals("2000")) {
+
 			// 作成に成功したらtrue, 失敗したらfalse
 			if (receivedMessage.result) {
 				CController.lobbyScreen.displayMessage("※データベースへの登録完了");
@@ -57,14 +58,22 @@ public class WebSocketEndpoint {
 		if (receivedMessage.order.equals("2001")) {
 			if (receivedMessage.result) {
 				CController.lobbyScreen.displayMessage("ログイン成功");
-				CController.lobbyScreen.changeScreen("Start", receivedMessage.messageContent.user_id);
+				CController.user_id = receivedMessage.messageContent.user_id;
+				CController.lobbyScreen.changeScreen("Start");
 			} else {
 				CController.lobbyScreen.displayMessage("※ログインに失敗しました");
+				try {
+					session.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
+		// WaitScreenからScoreScreenへの画面推移
 		if (receivedMessage.order.equals("2003")) {
 			CController.startScreen.changeScreen("Score", receivedMessage);
 		}
+		// WaiScreenからRuleScreenへの画面推移
 		if (receivedMessage.order.equals("2004")) {
 			CController.startScreen.changeScreen("Rule", receivedMessage);
 		}
@@ -77,7 +86,7 @@ public class WebSocketEndpoint {
 		 * ⇒動作検証できていないのと、最悪の場合正常処理だけするよう変更します
 		 */
 		if (receivedMessage.order.equals("2002")) {
-			if (receivedMessage.result = true) {
+			if (receivedMessage.result) {
 				StartScreen.room_state_flag = true; // 入室許可
 			} else {
 				CController.startScreen.displayMessage("※部屋が満室です");
@@ -94,14 +103,24 @@ public class WebSocketEndpoint {
 			sendMessage(send_message);
 		}
 
+		// 5003(ゲーム画面への推移用)
 		if (receivedMessage.order.equals("5003")) {
+
+			// ゲーム開始はメッセージが来た時のみ
+			CController.gameScreen = new GameScreen();
 			CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+
+			// waitScreenで待機しているのでwaitScreenを経由
+			CController.waitScreen.changeScreen("Game");
+
 		}
+		// 5004(ゲーム画面の更新)
 		if (receivedMessage.order.equals("5004")) {
 			CController.gameScreen.displaySecondCardInformation(receivedMessage.messageContent.pattern_list);
 		}
 		if (receivedMessage.order.equals("5005")) {
 		}
+		// 5006(結果画面の表示)
 		if (receivedMessage.order.equals("5006")) {
 			CController.resultScreen.displayResult(receivedMessage.messageContent.score_list,
 					receivedMessage.messageContent.user_list);
@@ -112,8 +131,7 @@ public class WebSocketEndpoint {
 
 	@OnError
 	public void onError(Throwable t) {
-		System.out.println("[client] onError");
-		System.out.println(t.getMessage());
+		System.out.println("[client] onError:" + t.getMessage());
 	}
 
 	@OnClose

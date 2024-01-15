@@ -8,9 +8,8 @@ public class WaitScreen extends JFrame {
 	private JPanel back_ground_panel;
 	private JLabel room_number_label, message_label;
 	private JButton exit_room_button;
-	private String user_id;
 
-	public WaitScreen(String user_id, int room_id) {
+	public WaitScreen(int room_id) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Wait Screen");
@@ -56,18 +55,12 @@ public class WaitScreen extends JFrame {
 		back_ground_panel.add(message_label);
 		back_ground_panel.add(exit_room_button);
 		setContentPane(back_ground_panel);
-
-		this.setVisible(true);
-		this.user_id = user_id;
 	}
 
 	public void pushExitRoomButton(ActionEvent event) {
 		if (event.getSource() == exit_room_button) {
-			CController cc = new CController();
-			cc.logout("user_id");
-			SController sc = new SController(user_id);
-			sc.changeScreen("Lobby");
-			this.setVisible(false);
+			CController.logout();
+			changeScreen("Lobby");
 		}
 	}
 
@@ -81,15 +74,12 @@ public class WaitScreen extends JFrame {
 	}
 
 	public void changeScreen(String screen) {
-		SController sc = new SController(user_id);
-		sc.changeScreen(screen);
 		this.setVisible(false);
+		SController.changeScreen(screen);
 	}
 
-	public void StartGame() {
-		CController.waitScreen.setVisible(false);
-		SController sController = new SController(user_id);
-		sController.changeScreen("Game");
+	public void reload(int room_id) {
+		displayRoomNumber(room_id);
 	}
 
 }

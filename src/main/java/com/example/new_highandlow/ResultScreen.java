@@ -9,9 +9,8 @@ public class ResultScreen extends JFrame{
 	private JPanel back_ground_panel;
 	private JLabel result_label;
 	private JButton return_start_button;
-	private String user_id;
 
-	public ResultScreen(String user_Id){
+	public ResultScreen(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(960, 540);
 		setTitle("Result Screen");
@@ -45,15 +44,12 @@ public class ResultScreen extends JFrame{
 		back_ground_panel.add(result_label);
 		back_ground_panel.add(return_start_button);
 		setContentPane(back_ground_panel);
-
-		this.user_id = user_Id;
-		this.setVisible(true);
 	}
 
 	public void displayResult(List<Integer> score_list, List<String> user_list){
 		int score=0, rank=1;
 		for (int i = 0; i < user_list.size(); i++) {
-			if (user_list.get(i).equals(user_id)) {
+			if (user_list.get(i).equals(CController.user_id)) {
 				score = score_list.get(i);
 				break;
 			}
@@ -69,10 +65,16 @@ public class ResultScreen extends JFrame{
 	}
 
 	public void pushReturnStartButton(ActionEvent event){
+		// 切断してロビーに戻る
 		if(event.getSource()==return_start_button){
-			SController sc = new SController(user_id);
-			sc.changeScreen("Start");
-			this.setVisible(false);
+			CController.logout();
+			changeScreen("Lobby");
 		}
+	}
+
+	public void changeScreen(String screen) {
+		this.setVisible(false);
+		SController.changeScreen(screen);
+		
 	}
 }
