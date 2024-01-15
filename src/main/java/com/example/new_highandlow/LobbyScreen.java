@@ -111,6 +111,7 @@ public class LobbyScreen extends JFrame {
 				
 				CController.login();
 			}
+
 		}
 	}
 
