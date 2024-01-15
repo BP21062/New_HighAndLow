@@ -91,10 +91,10 @@ public class CController{
 	}
 
 
-	public void getScore(String user){
+	public void getScore(String user_id){
 
 		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("1000", user);
+		Message sendMessage = new Message("1000", user_id);
 		// クラスオブジェクトをString (JSON) に変換する
 		String sendMessageJson = gson.toJson(sendMessage);
 
@@ -156,7 +156,7 @@ public class CController{
 		String sendMessageJson = gson.toJson(sendMessage);
 
 		// ログ
-		System.out.println("[client]: fheckRoomState(): " + sendMessageJson+"\n");
+		System.out.println("[client]: checkRoomState(): " + sendMessageJson+"\n");
 
 
 		if(lobby_connect.isConnected()){
