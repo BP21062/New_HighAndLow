@@ -1,5 +1,7 @@
 package com.example.new_highandlow;
 
+import com.google.gson.Gson;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ public class ResultScreen extends JFrame{
 	private JLabel result_label;
 	private JButton return_start_button;
 	private String user_id;
+	static Gson gson = new Gson();
 
 	public ResultScreen(String user_Id){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +53,7 @@ public class ResultScreen extends JFrame{
 		this.setVisible(true);
 	}
 
-	public void displayResult(List<Integer> score_list, List<String> user_list){
+	public void displayResult(List<Integer> score_list, List<String> user_list, int room_id){
 		int score=0, rank=1;
 		for (int i = 0; i < user_list.size(); i++) {
 			if (user_list.get(i).equals(user_id)) {
@@ -63,9 +66,23 @@ public class ResultScreen extends JFrame{
 				rank++;
 			}
 		}
-		String result = Integer.toString(rank);
+		String result = rank + "位　　" + score + "pt";
 		result_label.setText(result);
 		result_label.setForeground(Color.orange);
+
+		SController sc = new SController(user_id);
+		sc.Room_id = room_id;
+		sc.User_id = user_id;
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1008", user_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.result = true;
+		sendMessage.messageContent.room_id = room_id;
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		CController.app_connect.sendMessage(sendMessageJson);
 	}
 
 	public void pushReturnStartButton(ActionEvent event){

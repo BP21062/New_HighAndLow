@@ -1,5 +1,7 @@
 package com.example.new_highandlow;
 
+import com.google.gson.Gson;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +11,7 @@ public class WaitScreen extends JFrame{
 	private JLabel room_number_label, message_label;
 	private JButton exit_room_button;
 	private String user_id;
+	static Gson gson = new Gson();
 
 	public WaitScreen(String user_id,int room_id){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +37,6 @@ public class WaitScreen extends JFrame{
 		room_number_label.setOpaque(true);
 		room_number_label.setBackground(Color.orange);
 		room_number_label.setForeground(Color.black);
-		displayRoomNumber(room_id);
 
 		message_label = new JLabel();
 		message_label.setBounds(330, 230, 270, 40);
@@ -87,11 +89,22 @@ public class WaitScreen extends JFrame{
 		this.setVisible(false);
 	}
 
-	public void StartGame(){
+	public void StartGame(int room_id){
 		CController.waitScreen.setVisible(false);
 		SController sController = new SController(user_id);
+		sController.Room_id = room_id;
 		sController.User_id = user_id;
 		sController.changeScreen("Game");
-	}
 
+		System.out.println("sendMessage()");
+		// 試しにSampleMessageのインスタンスを作ってみる
+		Message sendMessage = new Message("1004", user_id);
+		// クラスオブジェクトをString (JSON) に変換する
+		sendMessage.result = true;
+		sendMessage.messageContent.room_id = room_id;
+		String sendMessageJson = gson.toJson(sendMessage);
+		// 変換後の書式を表示してみる。JSON
+		System.out.println(sendMessageJson);
+		CController.app_connect.sendMessage(sendMessageJson);
+	}
 }

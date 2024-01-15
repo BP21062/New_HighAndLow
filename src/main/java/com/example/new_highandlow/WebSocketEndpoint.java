@@ -82,22 +82,25 @@ public class WebSocketEndpoint{
 		}
 
 		if(receivedMessage.order.equals("5002")){
-			Message sendMessage = new Message("1004",receivedMessage.messageContent.user_id);
-			sendMessage.result = true;
-			String send_message = gson.toJson(sendMessage);
-			sendMessage(send_message);
+			CController.waitScreen.StartGame(receivedMessage.messageContent.room_id);
 		}
 
 		if(receivedMessage.order.equals("5003")){
-			CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+			CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list,
+					receivedMessage.messageContent.user_list, receivedMessage.messageContent.room_id);
 		}
 		if(receivedMessage.order.equals("5004")){
-			CController.gameScreen.displaySecondCardInformation(receivedMessage.messageContent.pattern_list);
+			CController.gameScreen.displayCardInformation(receivedMessage.messageContent.pattern_list,
+					receivedMessage.messageContent.image_data, receivedMessage.messageContent.room_id);
 		}
-		if(receivedMessage.order.equals("5005")){}
+		if(receivedMessage.order.equals("5005")){
+			CController.gameScreen.displaySecondCard(receivedMessage.messageContent.image_data,
+					receivedMessage.messageContent.room_id, receivedMessage.messageContent.score_list);
+		}
+
 		if(receivedMessage.order.equals("5006")){
 			CController.resultScreen.displayResult(receivedMessage.messageContent.score_list,
-					receivedMessage.messageContent.user_list);
+					receivedMessage.messageContent.user_list, receivedMessage.messageContent.room_id);
 		}
 		// 変換：SampleMessage -> String
 		//System.out.println(gson.toJson(receivedMessage));
