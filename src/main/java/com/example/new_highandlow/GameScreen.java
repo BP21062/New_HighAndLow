@@ -234,10 +234,10 @@ public class GameScreen extends JFrame{
 			HLJChoice = "high";
 			turnUP();
 		}else if(cmd.equals("Low")){
-			HLJChoice = "l";
+			HLJChoice = "low";
 			turnUP();
 		}else if(cmd.equals("Just")){
-			HLJChoice = "j";
+			HLJChoice = "just";
 			turnUP();
 		}
 	}
