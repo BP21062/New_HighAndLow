@@ -82,9 +82,11 @@ public class WebSocketEndpoint{
 			}
 		}
 
+		// 5002(ゲーム開始の画面推移用)⇒1004(画面推移完了通知)
 		if(receivedMessage.order.equals("5002")){
 			Message sendMessage = new Message("1004",receivedMessage.messageContent.user_id);
 			sendMessage.result = true;
+			sendMessage.messageContent.room_id = receivedMessage.messageContent.room_id;
 			String send_message = gson.toJson(sendMessage);
 			sendMessage(send_message);
 		}
