@@ -45,7 +45,7 @@ public class CServerConnector{
 	public void disconnect(){
 		System.out.println("[client] disconnect(): " + uri);
 		try {
-			if(!session.isOpen()) {
+			if(session.isOpen()) {
 				session.close();
 			}
 		} catch (Exception e) {

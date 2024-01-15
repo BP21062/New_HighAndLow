@@ -75,16 +75,19 @@ public class CController{
 
 	public void logout(String user_id){
 		
-		// 試しにSampleMessageのインスタンスを作ってみる
-		Message sendMessage = new Message("7", user_id);
-		// クラスオブジェクトをString (JSON) に変換する
-		String sendMessageJson = gson.toJson(sendMessage);
+		// // 試しにSampleMessageのインスタンスを作ってみる
+		// Message sendMessage = new Message("7", user_id);
+		// // クラスオブジェクトをString (JSON) に変換する
+		// String sendMessageJson = gson.toJson(sendMessage);
 
-		// ログ
-		System.out.println("[client]: logout(): " + sendMessageJson+"\n");
+		// // ログ
+		// System.out.println("[client]: logout(): " + sendMessageJson+"\n");
+
+		// 結局メッセージは送らずdisconnect()だけ
 
 		lobby_connect.disconnect();
 		app_connect.disconnect();
+		
 	}
 
 
