@@ -31,6 +31,7 @@ public class ResultScreen extends JFrame{
 		result_label = new JLabel();
 		result_label.setBounds(400, 220, 450, 100);
 		result_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 80));
+		//result_label.setOpaque(true);
 
 		return_start_button = new JButton("Return");
 		return_start_button.setBounds(400, 400, 150, 50);
@@ -47,36 +48,41 @@ public class ResultScreen extends JFrame{
 	}
 
 	public void displayResult(List<Integer> score_list, List<String> user_list){
-		int score=0, rank=1,temp;
-		for (int i = 0; i < user_list.size(); i++) {
-			if (user_list.get(i).equals(CController.user_id)) {
-				score = score_list.get(i);
+		String targetUser = CController.user_id;
+		System.out.println(CController.user_id);
+		System.out.println(score_list);
+		int targetScore = -1;
+		for(String user : user_list){
+			if(user.equals(targetUser)){
+				targetScore = score_list.get(user_list.indexOf(user));
 				break;
 			}
 		}
-		for(int j = 0; j < user_list.size(); j++){
-			temp = user_list.size();
-			if(temp < score){
-				rank++;
+		System.out.println(targetScore);
+		// ターゲットユーザーのスコアより高いユーザーの数を数える
+		int targetUserRank = 1;
+		for(Integer score : score_list){
+			if(targetScore < score){
+				targetUserRank++;
 			}
 		}
-		/*
-		String result = Integer.toString(rank);
-		result_label.setText(result + "");
-		result_label.setForeground(Color.orange);
-		*/
-		if(rank == 1){
+		System.out.println(targetUserRank);
+
+		if(targetUserRank == 1){
 			result_label.setText("1位!");
 			result_label.setForeground(Color.orange);
-		}else if(rank == 2){
+		}else if(targetUserRank == 2){
 			result_label.setText("2位!");
 			result_label.setForeground(Color.cyan);
-		}else if(rank == 3){
+		}else if(targetUserRank == 3){
 			result_label.setText("3位!");
 			result_label.setForeground(Color.pink);
-		}else if(rank == 4){
+		}else if(targetUserRank == 4){
 			result_label.setText("4位...");
 			result_label.setForeground(Color.blue);
+		}else{
+			result_label.setText("Error");
+			result_label.setForeground(Color.black);
 		}
 	}
 
