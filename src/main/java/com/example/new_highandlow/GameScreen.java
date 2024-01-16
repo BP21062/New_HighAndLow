@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameScreen extends JFrame{
 	private ArrayList<String> deck_information = new ArrayList<>();
@@ -169,7 +170,7 @@ public class GameScreen extends JFrame{
 		String num = String.format(" 残り時間：%d ", time);
 		remain_time_label.setText(num);
 		if(time == 0){
-			remain_time_label.setText(" しばらくお待ちください... ");
+			remain_time_label.setText(" 待機中... ");
 		}
 	}
 
@@ -198,13 +199,13 @@ public class GameScreen extends JFrame{
 		trump2_pattern_label.setText("<html><body>&nbsp;2枚目の柄<br />" + "&nbsp;&emsp;♡×" + patterns.get(0) + "<br />" + "&nbsp;&emsp;♢×" + patterns.get(1) + "<br />" + "&nbsp;&emsp;♠×" + patterns.get(2) + "<br />" + "&nbsp;&emsp;♣×" + patterns.get(3) + "<br /></body></html>");
 	}
 
-	public void displayCurrentScore(List<Integer> score_list){
+	public void displayCurrentScore(List<Integer> score_list,List<String> user_list){
 		List<Integer> scores = new ArrayList<>();
 		// たぶんArrayListをコピーしたかった？
 		for(int a = 0; a < 4; a++){
 			scores.add(score_list.get(a));
 		}
-		user_score_label.setText("<html><body>&nbsp;Player1:" + scores.get(0) + "<br />" + "&nbsp;Player2:" + scores.get(1) + "<br />" + "&nbsp;Player3:" + scores.get(2) + "<br />" + "&nbsp;Player4:" + scores.get(3) + "<br /></body></html>");
+		user_score_label.setText("<html><body>&nbsp;" + user_list.get(0) + ":" + scores.get(0) + "<br />" + "&nbsp;"+ user_list.get(1) + ":" + scores.get(1) + "<br />" + "&nbsp;"+ user_list.get(2) + ":" + scores.get(2) + "<br />" + "&nbsp;"+ user_list.get(3) + ":" + scores.get(3) + "<br /></body></html>");
 
 		CController.finishMessage("CurrentScore");
 	}
@@ -303,6 +304,9 @@ public class GameScreen extends JFrame{
 		clubs_button.setEnabled(false);
 		diamonds_button.setEnabled(false);
 		spades_button.setEnabled(false);
+
+
+
 
 		CController.finishMessage("Timer");
 
