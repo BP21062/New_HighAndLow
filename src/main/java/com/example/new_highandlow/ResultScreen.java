@@ -47,21 +47,37 @@ public class ResultScreen extends JFrame{
 	}
 
 	public void displayResult(List<Integer> score_list, List<String> user_list){
-		int score=0, rank=1;
+		int score=0, rank=1,temp;
 		for (int i = 0; i < user_list.size(); i++) {
 			if (user_list.get(i).equals(CController.user_id)) {
 				score = score_list.get(i);
 				break;
 			}
 		}
-		for (int temp : score_list) {
-			if (temp > score) {
+		for(int j = 0; j < user_list.size(); j++){
+			temp = user_list.size();
+			if(temp < score){
 				rank++;
 			}
 		}
+		/*
 		String result = Integer.toString(rank);
-		result_label.setText(result);
+		result_label.setText(result + "");
 		result_label.setForeground(Color.orange);
+		*/
+		if(rank == 1){
+			result_label.setText("1位!");
+			result_label.setForeground(Color.orange);
+		}else if(rank == 2){
+			result_label.setText("2位!");
+			result_label.setForeground(Color.cyan);
+		}else if(rank == 3){
+			result_label.setText("3位!");
+			result_label.setForeground(Color.pink);
+		}else if(rank == 4){
+			result_label.setText("4位...");
+			result_label.setForeground(Color.blue);
+		}
 	}
 
 	public void pushReturnStartButton(ActionEvent event){

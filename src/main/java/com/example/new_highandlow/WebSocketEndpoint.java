@@ -105,14 +105,17 @@ public class WebSocketEndpoint {
 
 		// 5003(ゲーム画面への推移用)
 		if (receivedMessage.order.equals("5003")) {
-
-			// ゲーム開始はメッセージが来た時のみ
-			CController.gameScreen = new GameScreen();
-			CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
-
-			// waitScreenで待機しているのでwaitScreenを経由
-			CController.waitScreen.changeScreen("Game");
-
+				// ゲーム開始はメッセージが来た時のみ
+				//CController.gameScreen = new GameScreen();
+				if(receivedMessage.messageContent.game_loop == 1){
+					// waitScreenで待機しているのでwaitScreenを経由
+					CController.gameScreen = new GameScreen();
+					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+					CController.waitScreen.changeScreen("Game");
+				}else{
+					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+					CController.gameScreen.changeScreen("Game");
+				}
 		}
 		// 5004(ゲーム画面の更新)
 		if (receivedMessage.order.equals("5004")) {
