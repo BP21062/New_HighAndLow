@@ -86,6 +86,7 @@ public class LobbyScreen extends JFrame {
 		setContentPane(back_ground_panel);
 
 		this.setVisible(true);
+		setResizable(false);
 	}
 
 	public void pushLoginButton(ActionEvent event) {

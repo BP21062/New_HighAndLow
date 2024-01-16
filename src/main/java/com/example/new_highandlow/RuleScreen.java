@@ -48,6 +48,8 @@ public class RuleScreen extends JFrame {
 		back_ground_panel.add(return_start_button);
 
 		setContentPane(back_ground_panel);
+
+		setResizable(false);
 	}
 
 	private void pushReturnStartButton(ActionEvent event){

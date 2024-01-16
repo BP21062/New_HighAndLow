@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameScreen extends JFrame{
 	private ArrayList<String> deck_information = new ArrayList<>();
@@ -13,7 +14,7 @@ public class GameScreen extends JFrame{
 	private int current_score_player1, current_score_player2, current_score_player3, current_score_player4;
 	private JPanel back_ground_panel;
 	private JLabel trump1_card_label, trump2_card_label;
-	private JLabel remain_time_label, trump2_pattern_label, user_score_label;
+	private JLabel remain_time_label, trump2_pattern_label, user_score_label ,user_name_label;
 	private JButton high_button, just_button, low_button;
 	private JButton hearts_button, diamonds_button, spades_button, clubs_button;
 	private JLabel HLJ,PTN;
@@ -52,6 +53,11 @@ public class GameScreen extends JFrame{
 		remain_time_label.setBackground(Color.red);
 		remain_time_label.setForeground(Color.white);
 		displayRemainTime(10);
+
+		user_name_label = new JLabel(CController.user_id);
+		user_name_label.setBounds(50, 40, 220, 40);
+		user_name_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 30));
+		user_name_label.setForeground(Color.darkGray);
 
 		trump2_pattern_label = new JLabel();
 		trump2_pattern_label.setBounds(50, 140, 180, 180);
@@ -148,6 +154,7 @@ public class GameScreen extends JFrame{
 
 		back_ground_panel.add(trump1_card_label);
 		back_ground_panel.add(trump2_card_label);
+		back_ground_panel.add(user_name_label);
 		back_ground_panel.add(remain_time_label);
 		back_ground_panel.add(trump2_pattern_label);
 		back_ground_panel.add(user_score_label);
@@ -161,6 +168,7 @@ public class GameScreen extends JFrame{
 		back_ground_panel.add(HLJ);
 		back_ground_panel.add(PTN);
 		setContentPane(back_ground_panel);
+		setResizable(false);
 
 	}
 
@@ -168,7 +176,7 @@ public class GameScreen extends JFrame{
 		String num = String.format(" 残り時間：%d ", time);
 		remain_time_label.setText(num);
 		if(time == 0){
-			remain_time_label.setText(" しばらくお待ちください... ");
+			remain_time_label.setText(" 待機中... ");
 		}
 	}
 
@@ -197,13 +205,13 @@ public class GameScreen extends JFrame{
 		trump2_pattern_label.setText("<html><body>&nbsp;2枚目の柄<br />" + "&nbsp;&emsp;♡×" + patterns.get(0) + "<br />" + "&nbsp;&emsp;♢×" + patterns.get(1) + "<br />" + "&nbsp;&emsp;♠×" + patterns.get(2) + "<br />" + "&nbsp;&emsp;♣×" + patterns.get(3) + "<br /></body></html>");
 	}
 
-	public void displayCurrentScore(List<Integer> score_list){
+	public void displayCurrentScore(List<Integer> score_list,List<String> user_list){
 		List<Integer> scores = new ArrayList<>();
 		// たぶんArrayListをコピーしたかった？
 		for(int a = 0; a < 4; a++){
 			scores.add(score_list.get(a));
 		}
-		user_score_label.setText("<html><body>&nbsp;Player1:" + scores.get(0) + "<br />" + "&nbsp;Player2:" + scores.get(1) + "<br />" + "&nbsp;Player3:" + scores.get(2) + "<br />" + "&nbsp;Player4:" + scores.get(3) + "<br /></body></html>");
+		user_score_label.setText("<html><body>&nbsp;" + user_list.get(0) + ":" + scores.get(0) + "<br />" + "&nbsp;"+ user_list.get(1) + ":" + scores.get(1) + "<br />" + "&nbsp;"+ user_list.get(2) + ":" + scores.get(2) + "<br />" + "&nbsp;"+ user_list.get(3) + ":" + scores.get(3) + "<br /></body></html>");
 
 		CController.finishMessage("CurrentScore");
 	}
@@ -303,6 +311,9 @@ public class GameScreen extends JFrame{
 		diamonds_button.setEnabled(false);
 		spades_button.setEnabled(false);
 
+
+
+
 		CController.finishMessage("Timer");
 
 	}
@@ -310,7 +321,10 @@ public class GameScreen extends JFrame{
 	public void changeScreen(String screen) {
 		this.setVisible(false);
 		SController.changeScreen(screen);
+	}
 
+	public void setCard(String cardcode){
+		// 画像の表示方法が分からないので一旦保留
 	}
 
 }

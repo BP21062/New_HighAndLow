@@ -104,21 +104,23 @@ public class WebSocketEndpoint {
 			sendMessage.result = true;
 			sendMessage.messageContent.room_id = receivedMessage.messageContent.room_id;
 			String send_message = gson.toJson(sendMessage);
+			//
 			sendMessage(send_message);
 		}
 
 		// 5003(ゲーム開始通知)
 		if (receivedMessage.order.equals("5003")) {
-
-			// 初回のみ新しく画面を作成
-			if (receivedMessage.messageContent.game_loop == 1) {
-				// waitScreenで待機しているのでwaitScreenを経由
-				CController.gameScreen = new GameScreen();
-				CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
-				CController.waitScreen.changeScreen("Game");
-			} else {
-				CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
-			}
+				// ゲーム開始はメッセージが来た時のみ
+				//CController.gameScreen = new GameScreen();
+				if(receivedMessage.messageContent.game_loop == 1){
+					// waitScreenで待機しているのでwaitScreenを経由
+					CController.gameScreen = new GameScreen();
+					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list,receivedMessage.messageContent.user_list);
+					CController.waitScreen.changeScreen("Game");
+				}else{
+					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list,receivedMessage.messageContent.user_list);
+					CController.gameScreen.changeScreen("Game");
+				}
 		}
 		// 5004(ゲーム画面の更新)
 		if (receivedMessage.order.equals("5004")) {

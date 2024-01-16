@@ -117,6 +117,8 @@ public class StartScreen extends JFrame {
 		back_ground_panel.add(rule_button);
 
 		setContentPane(back_ground_panel);
+
+		setResizable(false);
 	}
 
 	public void pushLogoutButton(ActionEvent event) {

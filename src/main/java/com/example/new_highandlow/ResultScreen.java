@@ -45,6 +45,8 @@ public class ResultScreen extends JFrame{
 		back_ground_panel.add(result_label);
 		back_ground_panel.add(return_start_button);
 		setContentPane(back_ground_panel);
+
+		setResizable(false);
 	}
 
 	public void displayResult(List<Integer> score_list, List<String> user_list){

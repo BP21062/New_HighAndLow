@@ -4,6 +4,8 @@ import javax.swing.SwingUtilities;
 
 import com.google.gson.Gson;
 
+import java.util.Random;
+
 //WebSocketClientSample.java
 public class CController {
 	public static String user_id;
@@ -166,6 +168,7 @@ public class CController {
 			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
 			app_connect.sendMessage(sendMessageJson);
+
 		}else if(finishTask.equals("displayFirst")){
 			Message message = new Message("1006",user_id);
 			message.result = true;
@@ -173,6 +176,7 @@ public class CController {
 			String sendMessageJson = gson.toJson(message);
 			app_connect.sendMessage(sendMessageJson);
 			gameScreen.startGameTimer();
+
 		}else if(finishTask.equals("Timer")){
 			Message message = new Message("1007",user_id);
 			message.messageContent.choice = gameScreen.HLJChoice;
@@ -180,6 +184,7 @@ public class CController {
 			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
 			app_connect.sendMessage(sendMessageJson);
+
 		}else if(finishTask.equals("displaySecond")){
 			Message message = new Message("1008",user_id);
 			message.result = true;
