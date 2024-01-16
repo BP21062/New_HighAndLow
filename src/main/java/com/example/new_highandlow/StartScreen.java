@@ -3,15 +3,12 @@ package com.example.new_highandlow;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 public class StartScreen extends JFrame {
 	private JButton room1_button, room2_button, room3_button, room4_button, room5_button, room6_button, logout_button,
 			score_button, rule_button;
 	private JPanel back_ground_panel;
 	private JLabel title_label, message_label;
-	private ArrayList<JButton> enter_room_button_list; // 不要っぽそう
-	private ArrayList<String> numberofpeople_list; // 各部屋に入っている人数を格納するリスト
 	// 要求仕様書のように部屋に入っている人数を表示するなら、画面遷移の時にアプリケーションサーバから引っ張ってくる必要がある
 	private String user_id; // pushLogoutButton()で必要だが、現時点で未定義
 	// 「addUserid(user_id)」のようなメソッドを定義して、LobbyScreenから遷移する時に引っ張ってくるのが簡単そう
