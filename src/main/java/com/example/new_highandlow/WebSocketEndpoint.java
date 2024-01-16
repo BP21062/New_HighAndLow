@@ -100,6 +100,7 @@ public class WebSocketEndpoint {
 			sendMessage.result = true;
 			sendMessage.messageContent.room_id = receivedMessage.messageContent.room_id;
 			String send_message = gson.toJson(sendMessage);
+			//
 			sendMessage(send_message);
 		}
 
@@ -110,10 +111,10 @@ public class WebSocketEndpoint {
 				if(receivedMessage.messageContent.game_loop == 1){
 					// waitScreenで待機しているのでwaitScreenを経由
 					CController.gameScreen = new GameScreen();
-					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list,receivedMessage.messageContent.user_list);
 					CController.waitScreen.changeScreen("Game");
 				}else{
-					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list,receivedMessage.messageContent.user_list);
 					CController.gameScreen.changeScreen("Game");
 				}
 		}

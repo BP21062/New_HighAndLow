@@ -55,6 +55,8 @@ public class WaitScreen extends JFrame {
 		back_ground_panel.add(message_label);
 		back_ground_panel.add(exit_room_button);
 		setContentPane(back_ground_panel);
+
+		setResizable(false);
 	}
 
 	public void pushExitRoomButton(ActionEvent event) {
