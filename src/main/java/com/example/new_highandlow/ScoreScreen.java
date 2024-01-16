@@ -58,6 +58,8 @@ public class ScoreScreen extends JFrame {
 		back_ground_panel.add(score_area);
 
 		setContentPane(back_ground_panel);
+
+		setResizable(false);
 	}
 
 	private void pushReturnStartButton(ActionEvent event) {

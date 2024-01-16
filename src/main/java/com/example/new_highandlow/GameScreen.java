@@ -161,6 +161,7 @@ public class GameScreen extends JFrame{
 		back_ground_panel.add(HLJ);
 		back_ground_panel.add(PTN);
 		setContentPane(back_ground_panel);
+		setResizable(false);
 
 	}
 
