@@ -1,8 +1,11 @@
 package com.example.new_highandlow;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -11,7 +14,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class GameScreen extends JFrame{
 	private ArrayList<String> deck_information = new ArrayList<>();
@@ -228,6 +237,15 @@ public class GameScreen extends JFrame{
 		}catch(InterruptedException e){
 			e.printStackTrace();
 		}
+		
+		// 再びカードを裏返す
+		back_ground_panel.remove(trump2_card_label);
+		ImageIcon icon2 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump2.png");
+		trump2_card_label = new JLabel(icon2);
+		trump2_card_label.setBounds(500, 130, 140, 200);
+		back_ground_panel.add(trump2_card_label);
+		setContentPane(back_ground_panel);
+
 		CController.finishMessage("displaySecond");
 	}
 
