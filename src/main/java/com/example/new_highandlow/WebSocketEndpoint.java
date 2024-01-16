@@ -28,11 +28,15 @@ public class WebSocketEndpoint {
 		Message receivedMessage = gson.fromJson(message, Message.class);
 
 		// ルールの画像で流れるため
-		if (!receivedMessage.order.equals("2004")) {
-			// 受信した生のメッセージ
-			System.out.println("[App] onMessage from (session: " + session.getId() + ") msg: " + message);
-		}else{
+		if (receivedMessage.order.equals("2004")) {
 			System.out.println("[client] onMessage: rule");
+
+		} else if (receivedMessage.order.equals("5005")) {
+			System.out.println("[client] onMessage: Timer");
+
+		} else {
+			// 受信した生のメッセージ
+			System.out.println("[client] onMessage from (session: " + session.getId() + ") msg: " + message);
 		}
 
 		// 各要素を見てみる
@@ -103,19 +107,18 @@ public class WebSocketEndpoint {
 			sendMessage(send_message);
 		}
 
-		// 5003(ゲーム画面への推移用)
+		// 5003(ゲーム開始通知)
 		if (receivedMessage.order.equals("5003")) {
-				// ゲーム開始はメッセージが来た時のみ
-				//CController.gameScreen = new GameScreen();
-				if(receivedMessage.messageContent.game_loop == 1){
-					// waitScreenで待機しているのでwaitScreenを経由
-					CController.gameScreen = new GameScreen();
-					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
-					CController.waitScreen.changeScreen("Game");
-				}else{
-					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
-					CController.gameScreen.changeScreen("Game");
-				}
+
+			// 初回のみ新しく画面を作成
+			if (receivedMessage.messageContent.game_loop == 1) {
+				// waitScreenで待機しているのでwaitScreenを経由
+				CController.gameScreen = new GameScreen();
+				CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+				CController.waitScreen.changeScreen("Game");
+			} else {
+				CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list);
+			}
 		}
 		// 5004(ゲーム画面の更新)
 		if (receivedMessage.order.equals("5004")) {
