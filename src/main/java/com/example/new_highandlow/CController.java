@@ -159,7 +159,7 @@ public class CController {
 		return false;
 	}
 
-	public void finishMessage(String finishTask){
+	public static void finishMessage(String finishTask){
 		if(finishTask.equals("CurrentScore")){
 			Message message = new Message("1005",user_id);
 			message.result = true;

@@ -174,8 +174,7 @@ public class GameScreen extends JFrame{
 
 	public void displayFirstCard(String cardcode){
 		//画像の表示方法が分からないので一旦保留
-		CController cController = new CController();
-		cController.finishMessage("displayFirst");
+		CController.finishMessage("displayFirst");
 	}
 
 	public void displaySecondCard(String cardcode){
@@ -186,8 +185,7 @@ public class GameScreen extends JFrame{
 		}catch(InterruptedException e){
 			e.printStackTrace();
 		}
-		CController cController = new CController();
-		cController.finishMessage("displaySecond");
+		CController.finishMessage("displaySecond");
 	}
 
 	public void displaySecondCardInformation(List<Integer> pattern_list){
@@ -207,8 +205,7 @@ public class GameScreen extends JFrame{
 		}
 		user_score_label.setText("<html><body>&nbsp;Player1:" + scores.get(0) + "<br />" + "&nbsp;Player2:" + scores.get(1) + "<br />" + "&nbsp;Player3:" + scores.get(2) + "<br />" + "&nbsp;Player4:" + scores.get(3) + "<br /></body></html>");
 
-		CController cController = new CController();
-		cController.finishMessage("CurrentScore");
+		CController.finishMessage("CurrentScore");
 	}
 
 	/*
@@ -306,8 +303,7 @@ public class GameScreen extends JFrame{
 		diamonds_button.setEnabled(false);
 		spades_button.setEnabled(false);
 
-		CController cController = new CController();
-		cController.finishMessage("Timer");
+		CController.finishMessage("Timer");
 
 	}
 

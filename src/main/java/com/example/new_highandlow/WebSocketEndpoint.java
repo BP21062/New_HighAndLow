@@ -127,9 +127,9 @@ public class WebSocketEndpoint {
 		}
 		// 5006(結果画面の表示)
 		if (receivedMessage.order.equals("5006")) {
+			CController.gameScreen.changeScreen("Result");
 			CController.resultScreen.displayResult(receivedMessage.messageContent.score_list,
 					receivedMessage.messageContent.user_list);
-			CController.gameScreen.changeScreen("Result");
 		}
 		// 変換：SampleMessage -> String
 		// System.out.println(gson.toJson(receivedMessage));
