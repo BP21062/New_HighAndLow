@@ -163,11 +163,13 @@ public class CController {
 		if(finishTask.equals("CurrentScore")){
 			Message message = new Message("1005",user_id);
 			message.result = true;
+			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
 			app_connect.sendMessage(sendMessageJson);
 		}else if(finishTask.equals("displayFirst")){
 			Message message = new Message("1006",user_id);
 			message.result = true;
+			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
 			app_connect.sendMessage(sendMessageJson);
 			gameScreen.startGameTimer();
@@ -175,11 +177,13 @@ public class CController {
 			Message message = new Message("1007",user_id);
 			message.messageContent.choice = gameScreen.HLJChoice;
 			message.messageContent.pattern = gameScreen.PTNChoice;
+			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
 			app_connect.sendMessage(sendMessageJson);
 		}else if(finishTask.equals("displaySecond")){
 			Message message = new Message("1008",user_id);
 			message.result = true;
+			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
 			app_connect.sendMessage(sendMessageJson);
 		}

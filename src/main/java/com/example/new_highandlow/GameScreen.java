@@ -16,6 +16,7 @@ public class GameScreen extends JFrame{
 	private JLabel remain_time_label, trump2_pattern_label, user_score_label;
 	private JButton high_button, just_button, low_button;
 	private JButton hearts_button, diamonds_button, spades_button, clubs_button;
+	private JLabel HLJ,PTN;
 	public String HLJChoice,PTNChoice; //各選択肢の内容を保存する関数
 
 	public GameScreen(){
@@ -93,6 +94,13 @@ public class GameScreen extends JFrame{
 		low_button.setForeground(Color.white);
 		low_button.setEnabled(false);
 
+		HLJ = new JLabel();
+		HLJ.setBounds(710,350,80,80);
+		HLJ.setFont(new Font("Arial", Font.BOLD, 30));
+		HLJ.setOpaque(true);
+		HLJ.setBackground(Color.pink);
+		HLJ.setForeground(Color.black);
+
 		hearts_button = new JButton("♥");
 		hearts_button.setBounds(290, 420, 50, 50);
 		hearts_button.addActionListener(this::pushPatternButton);
@@ -129,6 +137,13 @@ public class GameScreen extends JFrame{
 		clubs_button.setForeground(Color.black);
 		clubs_button.setEnabled(false);
 
+		PTN = new JLabel();
+		PTN.setBounds(710,420,50,50);
+		PTN.setFont(new Font("Arial", Font.BOLD, 30));
+		PTN.setOpaque(true);
+		PTN.setBackground(Color.pink);
+		PTN.setForeground(Color.black);
+
 		this.add(back_ground_panel);
 
 		back_ground_panel.add(trump1_card_label);
@@ -143,6 +158,8 @@ public class GameScreen extends JFrame{
 		back_ground_panel.add(diamonds_button);
 		back_ground_panel.add(spades_button);
 		back_ground_panel.add(clubs_button);
+		back_ground_panel.add(HLJ);
+		back_ground_panel.add(PTN);
 		setContentPane(back_ground_panel);
 
 	}
@@ -150,6 +167,9 @@ public class GameScreen extends JFrame{
 	public void displayRemainTime(int time){
 		String num = String.format(" 残り時間：%d ", time);
 		remain_time_label.setText(num);
+		if(time == 0){
+			remain_time_label.setText(" しばらくお待ちください... ");
+		}
 	}
 
 	public void displayFirstCard(String cardcode){
@@ -185,7 +205,7 @@ public class GameScreen extends JFrame{
 		for(int a = 0; a < 4; a++){
 			scores.add(score_list.get(a));
 		}
-		user_score_label.setText("<html><body>&nbsp;Player1：" + scores.get(0) + "<br />" + "&nbsp;Player2：" + scores.get(1) + "<br />" + "&nbsp;Player3：" + scores.get(2) + "<br />" + "&nbsp;Player4：" + scores.get(3) + "<br /></body></html>");
+		user_score_label.setText("<html><body>&nbsp;Player1:" + scores.get(0) + "<br />" + "&nbsp;Player2:" + scores.get(1) + "<br />" + "&nbsp;Player3:" + scores.get(2) + "<br />" + "&nbsp;Player4:" + scores.get(3) + "<br /></body></html>");
 
 		CController cController = new CController();
 		cController.finishMessage("CurrentScore");
@@ -232,12 +252,15 @@ public class GameScreen extends JFrame{
 		String cmd = event.getActionCommand();
 		if(cmd.equals("High")){
 			HLJChoice = "high";
+			HLJ.setText("High");
 			turnUP();
 		}else if(cmd.equals("Low")){
 			HLJChoice = "low";
+			HLJ.setText("Low");
 			turnUP();
 		}else if(cmd.equals("Just")){
 			HLJChoice = "just";
+			HLJ.setText("Just");
 			turnUP();
 		}
 	}
@@ -246,12 +269,16 @@ public class GameScreen extends JFrame{
 		String cmd = event.getActionCommand();
 		if(cmd.equals("heart")){
 			PTNChoice = "heart";
+			PTN.setText("♥");
 		}else if(cmd.equals("dia")){
 			PTNChoice = "diamond";
+			PTN.setText("♦");
 		}else if(cmd.equals("club")){
 			PTNChoice = "club";
+			PTN.setText("♣");
 		}else if(cmd.equals("spade")){
 			PTNChoice = "spade";
+			PTN.setText("♠");
 		}
 	}
 
@@ -259,6 +286,8 @@ public class GameScreen extends JFrame{
 		high_button.setEnabled(true);
 		just_button.setEnabled(true);
 		low_button.setEnabled(true);
+		PTN.setText("");
+		HLJ.setText("");
 
 		for(int j = 0; j < 20; j++){
 			displayRemainTime(20 - j);
