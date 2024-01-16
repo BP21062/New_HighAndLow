@@ -1,9 +1,15 @@
 package com.example.new_highandlow;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -181,12 +187,41 @@ public class GameScreen extends JFrame{
 	}
 
 	public void displayFirstCard(String cardcode){
-		//画像の表示方法が分からないので一旦保留
+		
+		back_ground_panel.remove(trump1_card_label);
+		
+		ImageIcon image;
+		try (InputStream input = new ByteArrayInputStream(Base64.getDecoder().decode(cardcode.split(",")[1]))) {
+			image = new ImageIcon(ImageIO.read(input));
+			image = PictureBuilder.resizeIcon(image,140,200);
+			trump1_card_label = new JLabel(image);
+			trump1_card_label.setBounds(300, 130, 140, 200);;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		back_ground_panel.add(trump1_card_label);
+		setContentPane(back_ground_panel);
+
 		CController.finishMessage("displayFirst");
 	}
 
 	public void displaySecondCard(String cardcode){
-		//画像の表示方法が分からないのでいったん保留
+
+		back_ground_panel.remove(trump2_card_label);
+		
+		ImageIcon image;
+		try (InputStream input = new ByteArrayInputStream(Base64.getDecoder().decode(cardcode.split(",")[1]))) {
+			image = new ImageIcon(ImageIO.read(input));
+			image = PictureBuilder.resizeIcon(image,140,200);
+			trump2_card_label = new JLabel(image);
+			trump2_card_label.setBounds(500, 130, 140, 200);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		back_ground_panel.add(trump2_card_label);
+		setContentPane(back_ground_panel);
 
 		try{
 			Thread.sleep(5000);
@@ -281,9 +316,6 @@ public class GameScreen extends JFrame{
 		diamonds_button.setEnabled(false);
 		spades_button.setEnabled(false);
 
-
-
-
 		CController.finishMessage("Timer");
 
 	}
@@ -293,8 +325,20 @@ public class GameScreen extends JFrame{
 		SController.changeScreen(screen);
 	}
 
-	public void setCard(String cardcode){
-		// 画像の表示方法が分からないので一旦保留
-	}
-
 }
+
+
+class PictureBuilder {
+    public static ImageIcon resizeIcon(ImageIcon icon, int w, int h){
+        Image CGresize = icon.getImage();
+         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = resizedImg.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.drawImage(CGresize, 0, 0, w, h, null);
+            g2.dispose();
+            ImageIcon resized = new ImageIcon();
+            resized.setImage(resizedImg);
+            return resized;
+    }
+}
+

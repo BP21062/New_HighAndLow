@@ -32,9 +32,12 @@ public class WebSocketEndpoint {
 			System.out.println("[client] onMessage: rule");
 
 		} else if (receivedMessage.order.equals("5005")) {
-			System.out.println("[client] onMessage: Timer");
+			System.out.println("[client] onMessage: Card");
 
-		} else {
+		} else if (receivedMessage.order.equals("5004")) {
+			System.out.println("[client] onMessage: Card");
+
+		}else {
 			// 受信した生のメッセージ
 			System.out.println("[client] onMessage from (session: " + session.getId() + ") msg: " + message);
 		}
@@ -119,7 +122,6 @@ public class WebSocketEndpoint {
 					CController.waitScreen.changeScreen("Game");
 				}else{
 					CController.gameScreen.displayCurrentScore(receivedMessage.messageContent.score_list,receivedMessage.messageContent.user_list);
-					CController.gameScreen.changeScreen("Game");
 				}
 		}
 		// 5004(ゲーム画面の更新)
