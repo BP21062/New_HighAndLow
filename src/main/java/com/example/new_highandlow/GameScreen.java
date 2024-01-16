@@ -14,7 +14,7 @@ public class GameScreen extends JFrame{
 	private int current_score_player1, current_score_player2, current_score_player3, current_score_player4;
 	private JPanel back_ground_panel;
 	private JLabel trump1_card_label, trump2_card_label;
-	private JLabel remain_time_label, trump2_pattern_label, user_score_label;
+	private JLabel remain_time_label, trump2_pattern_label, user_score_label ,user_name_label;
 	private JButton high_button, just_button, low_button;
 	private JButton hearts_button, diamonds_button, spades_button, clubs_button;
 	private JLabel HLJ,PTN;
@@ -53,6 +53,11 @@ public class GameScreen extends JFrame{
 		remain_time_label.setBackground(Color.red);
 		remain_time_label.setForeground(Color.white);
 		displayRemainTime(10);
+
+		user_name_label = new JLabel(CController.user_id);
+		user_name_label.setBounds(50, 40, 220, 40);
+		user_name_label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 30));
+		user_name_label.setForeground(Color.darkGray);
 
 		trump2_pattern_label = new JLabel();
 		trump2_pattern_label.setBounds(50, 140, 180, 180);
@@ -149,6 +154,7 @@ public class GameScreen extends JFrame{
 
 		back_ground_panel.add(trump1_card_label);
 		back_ground_panel.add(trump2_card_label);
+		back_ground_panel.add(user_name_label);
 		back_ground_panel.add(remain_time_label);
 		back_ground_panel.add(trump2_pattern_label);
 		back_ground_panel.add(user_score_label);
