@@ -315,7 +315,10 @@ public class GameScreen extends JFrame{
 	public void changeScreen(String screen) {
 		this.setVisible(false);
 		SController.changeScreen(screen);
+	}
 
+	public void setCard(String cardcode){
+		// 画像の表示方法が分からないので一旦保留
 	}
 
 }
