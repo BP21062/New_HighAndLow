@@ -4,6 +4,8 @@ import javax.swing.SwingUtilities;
 
 import com.google.gson.Gson;
 
+import java.util.Random;
+
 //WebSocketClientSample.java
 public class CController {
 	public static String user_id;
@@ -165,12 +167,30 @@ public class CController {
 			message.result = true;
 			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
+
+			Random random = new Random();
+			int sleep_time = random.nextInt(500)+ 250;
+			try{
+				Thread.sleep(sleep_time);
+			}catch(InterruptedException e){
+				throw new RuntimeException(e);
+			}
+
 			app_connect.sendMessage(sendMessageJson);
 		}else if(finishTask.equals("displayFirst")){
 			Message message = new Message("1006",user_id);
 			message.result = true;
 			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
+
+			Random random = new Random();
+			int sleep_time = random.nextInt(500)+ 250;
+			try{
+				Thread.sleep(sleep_time);
+			}catch(InterruptedException e){
+				throw new RuntimeException(e);
+			}
+
 			app_connect.sendMessage(sendMessageJson);
 			gameScreen.startGameTimer();
 		}else if(finishTask.equals("Timer")){
@@ -179,12 +199,30 @@ public class CController {
 			message.messageContent.pattern = gameScreen.PTNChoice;
 			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
+
+			Random random = new Random();
+			int sleep_time = random.nextInt(500)+ 250;
+			try{
+				Thread.sleep(sleep_time);
+			}catch(InterruptedException e){
+				throw new RuntimeException(e);
+			}
+
 			app_connect.sendMessage(sendMessageJson);
 		}else if(finishTask.equals("displaySecond")){
 			Message message = new Message("1008",user_id);
 			message.result = true;
 			message.messageContent.room_id = SController.room_id;
 			String sendMessageJson = gson.toJson(message);
+
+			Random random = new Random();
+			int sleep_time = random.nextInt(500)+ 250;
+			try{
+				Thread.sleep(sleep_time);
+			}catch(InterruptedException e){
+				throw new RuntimeException(e);
+			}
+
 			app_connect.sendMessage(sendMessageJson);
 		}
 
