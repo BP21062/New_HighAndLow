@@ -216,36 +216,6 @@ public class GameScreen extends JFrame{
 		CController.finishMessage("CurrentScore");
 	}
 
-	/*
-	 * public void pushHighButton(ActionEvent event){
-	 * if(event.getSource()==high_button){}
-	 * }
-	 *
-	 * public void pushJustButton(ActionEvent event){
-	 * if(event.getSource()==just_button){}
-	 * }
-	 *
-	 * public void pushLowButton(ActionEvent event){
-	 * if(event.getSource()==low_button){}
-	 * }
-	 *
-	 * public void pushHeartsButton(ActionEvent event){
-	 * if(event.getSource()==hearts_button){}
-	 * }
-	 *
-	 * public void pushDiamondsButton(ActionEvent event){
-	 * if(event.getSource()==diamonds_button){}
-	 * }
-	 *
-	 * public void pushSpadesButton(ActionEvent event){
-	 * if(event.getSource()==spades_button){}
-	 * }
-	 *
-	 * public void pushClubsButton(ActionEvent event){
-	 * if(event.getSource()==clubs_button){}
-	 * }
-	 */
-
 	public void turnUP(){
 		spades_button.setEnabled(true);
 		diamonds_button.setEnabled(true);
