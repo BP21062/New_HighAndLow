@@ -324,6 +324,8 @@ public class GameScreen extends JFrame{
 		low_button.setEnabled(true);
 		PTN.setText("");
 		HLJ.setText("");
+		PTNChoice = null;
+		HLJChoice = null;
 
 		for(int j = 0; j < 20; j++){
 			displayRemainTime(20 - j);
