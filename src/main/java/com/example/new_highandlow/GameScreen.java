@@ -261,11 +261,22 @@ public class GameScreen extends JFrame{
 
 	public void displayCurrentScore(List<Integer> score_list,List<String> user_list){
 		List<Integer> scores = new ArrayList<>();
+		
 		// たぶんArrayListをコピーしたかった？
-		for(int a = 0; a < 4; a++){
+		for(int a = 0; a < score_list.size(); a++){
 			scores.add(score_list.get(a));
 		}
-		user_score_label.setText("<html><body>&nbsp;" + user_list.get(0) + ":" + scores.get(0) + "<br />" + "&nbsp;"+ user_list.get(1) + ":" + scores.get(1) + "<br />" + "&nbsp;"+ user_list.get(2) + ":" + scores.get(2) + "<br />" + "&nbsp;"+ user_list.get(3) + ":" + scores.get(3) + "<br /></body></html>");
+
+		String text = "<html><body>";
+
+		// 人数が減った時対策
+		for(int i = 0; i < user_list.size(); i++){
+			text += "&nbsp;" + user_list.get(i) + ":" + scores.get(i) + "<br />";
+		}
+
+		text += "</body></html>";
+
+		user_score_label.setText(text);
 
 		CController.finishMessage("CurrentScore");
 	}

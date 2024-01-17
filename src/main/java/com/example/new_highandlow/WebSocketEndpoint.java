@@ -111,7 +111,7 @@ public class WebSocketEndpoint {
 			sendMessage(send_message);
 		}
 
-		// 5003(ゲーム開始通知)
+		// 5003(ゲーム通知)
 		if (receivedMessage.order.equals("5003")) {
 				// ゲーム開始はメッセージが来た時のみ
 				//CController.gameScreen = new GameScreen();
