@@ -23,10 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GameScreen extends JFrame{
-	private ArrayList<String> deck_information = new ArrayList<>();
-	private ArrayList<String> card_information = new ArrayList<>();
-	private int trump2_pattern_hearts, trump2_pattern_diamonds, trump2_pattern_spades, trump2_pattern_clubs;
-	private int current_score_player1, current_score_player2, current_score_player3, current_score_player4;
 	private JPanel back_ground_panel;
 	private JLabel trump1_card_label, trump2_card_label;
 	private JLabel remain_time_label, trump2_pattern_label, user_score_label ,user_name_label;
@@ -261,7 +257,7 @@ public class GameScreen extends JFrame{
 
 	public void displayCurrentScore(List<Integer> score_list,List<String> user_list){
 		List<Integer> scores = new ArrayList<>();
-		
+
 		// たぶんArrayListをコピーしたかった？
 		for(int a = 0; a < score_list.size(); a++){
 			scores.add(score_list.get(a));
