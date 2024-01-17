@@ -1,17 +1,28 @@
 package com.example.new_highandlow;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
-import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class GameScreen extends JFrame{
-	private ArrayList<String> deck_information = new ArrayList<>();
-	private ArrayList<String> card_information = new ArrayList<>();
-	private int trump2_pattern_hearts, trump2_pattern_diamonds, trump2_pattern_spades, trump2_pattern_clubs;
-	private int current_score_player1, current_score_player2, current_score_player3, current_score_player4;
 	private JPanel back_ground_panel;
 	private JLabel trump1_card_label, trump2_card_label;
 	private JLabel remain_time_label, trump2_pattern_label, user_score_label ,user_name_label;
@@ -38,7 +49,8 @@ public class GameScreen extends JFrame{
 		back_ground_panel.setLayout(null);
 		back_ground_panel.setOpaque(false);
 
-		ImageIcon icon1 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump1.png");
+		// 最初は両方とも裏向きのカードを表示
+		ImageIcon icon1 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump2.png");
 		trump1_card_label = new JLabel(icon1);
 		trump1_card_label.setBounds(300, 130, 140, 200);
 
@@ -181,18 +193,56 @@ public class GameScreen extends JFrame{
 	}
 
 	public void displayFirstCard(String cardcode){
-		//画像の表示方法が分からないので一旦保留
+		
+		back_ground_panel.remove(trump1_card_label);
+		
+		ImageIcon image;
+		try (InputStream input = new ByteArrayInputStream(Base64.getDecoder().decode(cardcode.split(",")[1]))) {
+			image = new ImageIcon(ImageIO.read(input));
+			image = PictureBuilder.resizeIcon(image,140,200);
+			trump1_card_label = new JLabel(image);
+			trump1_card_label.setBounds(300, 130, 140, 200);;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		back_ground_panel.add(trump1_card_label);
+		setContentPane(back_ground_panel);
+
 		CController.finishMessage("displayFirst");
 	}
 
 	public void displaySecondCard(String cardcode){
-		//画像の表示方法が分からないのでいったん保留
+
+		back_ground_panel.remove(trump2_card_label);
+		
+		ImageIcon image;
+		try (InputStream input = new ByteArrayInputStream(Base64.getDecoder().decode(cardcode.split(",")[1]))) {
+			image = new ImageIcon(ImageIO.read(input));
+			image = PictureBuilder.resizeIcon(image,140,200);
+			trump2_card_label = new JLabel(image);
+			trump2_card_label.setBounds(500, 130, 140, 200);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		back_ground_panel.add(trump2_card_label);
+		setContentPane(back_ground_panel);
 
 		try{
 			Thread.sleep(5000);
 		}catch(InterruptedException e){
 			e.printStackTrace();
 		}
+		
+		// 再びカードを裏返す
+		back_ground_panel.remove(trump2_card_label);
+		ImageIcon icon2 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump2.png");
+		trump2_card_label = new JLabel(icon2);
+		trump2_card_label.setBounds(500, 130, 140, 200);
+		back_ground_panel.add(trump2_card_label);
+		setContentPane(back_ground_panel);
+
 		CController.finishMessage("displaySecond");
 	}
 
@@ -207,44 +257,25 @@ public class GameScreen extends JFrame{
 
 	public void displayCurrentScore(List<Integer> score_list,List<String> user_list){
 		List<Integer> scores = new ArrayList<>();
+
 		// たぶんArrayListをコピーしたかった？
-		for(int a = 0; a < 4; a++){
+		for(int a = 0; a < score_list.size(); a++){
 			scores.add(score_list.get(a));
 		}
-		user_score_label.setText("<html><body>&nbsp;" + user_list.get(0) + ":" + scores.get(0) + "<br />" + "&nbsp;"+ user_list.get(1) + ":" + scores.get(1) + "<br />" + "&nbsp;"+ user_list.get(2) + ":" + scores.get(2) + "<br />" + "&nbsp;"+ user_list.get(3) + ":" + scores.get(3) + "<br /></body></html>");
+
+		String text = "<html><body>";
+
+		// 人数が減った時対策
+		for(int i = 0; i < user_list.size(); i++){
+			text += "&nbsp;" + user_list.get(i) + ":" + scores.get(i) + "<br />";
+		}
+
+		text += "</body></html>";
+
+		user_score_label.setText(text);
 
 		CController.finishMessage("CurrentScore");
 	}
-
-	/*
-	 * public void pushHighButton(ActionEvent event){
-	 * if(event.getSource()==high_button){}
-	 * }
-	 *
-	 * public void pushJustButton(ActionEvent event){
-	 * if(event.getSource()==just_button){}
-	 * }
-	 *
-	 * public void pushLowButton(ActionEvent event){
-	 * if(event.getSource()==low_button){}
-	 * }
-	 *
-	 * public void pushHeartsButton(ActionEvent event){
-	 * if(event.getSource()==hearts_button){}
-	 * }
-	 *
-	 * public void pushDiamondsButton(ActionEvent event){
-	 * if(event.getSource()==diamonds_button){}
-	 * }
-	 *
-	 * public void pushSpadesButton(ActionEvent event){
-	 * if(event.getSource()==spades_button){}
-	 * }
-	 *
-	 * public void pushClubsButton(ActionEvent event){
-	 * if(event.getSource()==clubs_button){}
-	 * }
-	 */
 
 	public void turnUP(){
 		spades_button.setEnabled(true);
@@ -293,6 +324,8 @@ public class GameScreen extends JFrame{
 		low_button.setEnabled(true);
 		PTN.setText("");
 		HLJ.setText("");
+		PTNChoice = null;
+		HLJChoice = null;
 
 		for(int j = 0; j < 20; j++){
 			displayRemainTime(20 - j);
@@ -311,9 +344,6 @@ public class GameScreen extends JFrame{
 		diamonds_button.setEnabled(false);
 		spades_button.setEnabled(false);
 
-
-
-
 		CController.finishMessage("Timer");
 
 	}
@@ -321,7 +351,22 @@ public class GameScreen extends JFrame{
 	public void changeScreen(String screen) {
 		this.setVisible(false);
 		SController.changeScreen(screen);
-
 	}
 
 }
+
+
+class PictureBuilder {
+    public static ImageIcon resizeIcon(ImageIcon icon, int w, int h){
+        Image CGresize = icon.getImage();
+         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = resizedImg.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.drawImage(CGresize, 0, 0, w, h, null);
+            g2.dispose();
+            ImageIcon resized = new ImageIcon();
+            resized.setImage(resizedImg);
+            return resized;
+    }
+}
+
