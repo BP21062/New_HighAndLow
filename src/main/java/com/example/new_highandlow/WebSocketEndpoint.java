@@ -89,8 +89,6 @@ public class WebSocketEndpoint {
 		 * checkRoomStateのboolean判定が帰ってくる
 		 * receivedMessage.result=trueなら、そのまま入室
 		 * receivedMessage.result=falseなら、満室表示して部屋選択からやり直し
-		 * 
-		 * ⇒動作検証できていないのと、最悪の場合正常処理だけするよう変更します
 		 */
 		if (receivedMessage.order.equals("2002")) {
 			if (receivedMessage.result) {
@@ -114,7 +112,6 @@ public class WebSocketEndpoint {
 		// 5003(ゲーム通知)
 		if (receivedMessage.order.equals("5003")) {
 				// ゲーム開始はメッセージが来た時のみ
-				//CController.gameScreen = new GameScreen();
 				if(receivedMessage.messageContent.game_loop == 1){
 					// waitScreenで待機しているのでwaitScreenを経由
 					CController.gameScreen = new GameScreen();
