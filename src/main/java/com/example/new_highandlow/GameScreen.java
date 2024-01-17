@@ -53,7 +53,8 @@ public class GameScreen extends JFrame{
 		back_ground_panel.setLayout(null);
 		back_ground_panel.setOpaque(false);
 
-		ImageIcon icon1 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump1.png");
+		// 最初は両方とも裏向きのカードを表示
+		ImageIcon icon1 = new ImageIcon("src/main/resources/com/example/new_highandlow/png/trump2.png");
 		trump1_card_label = new JLabel(icon1);
 		trump1_card_label.setBounds(300, 130, 140, 200);
 
