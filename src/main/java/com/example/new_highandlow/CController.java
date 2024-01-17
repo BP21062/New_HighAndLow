@@ -4,8 +4,6 @@ import javax.swing.SwingUtilities;
 
 import com.google.gson.Gson;
 
-import java.util.Random;
-
 //WebSocketClientSample.java
 public class CController {
 	public static String user_id;
